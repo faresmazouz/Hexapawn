@@ -33,10 +33,10 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            
-            <Label Text="♙" Grid.Row="0" Grid.Column="0" FontSize="40" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
-            <Label Text="♙" Grid.Row="0" Grid.Column="1" FontSize="40" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
-            <Label Text="♙" Grid.Row="0" Grid.Column="2" FontSize="40" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
+
+            <Label Text="♙" Grid.Row="0" Grid.Column="0" WidthRequest="200"  FontSize="40" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
+            <Label Text="♙" Grid.Row="0" Grid.Column="1" WidthRequest="200" FontSize="40" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
+            <Label Text="♙" Grid.Row="0" Grid.Column="2" WidthRequest="80" FontSize="40" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
 
             
             <Label Text="♙" Grid.Row="2" Grid.Column="0" FontSize="40" TextColor="Orange" HorizontalOptions="Center" VerticalOptions="Center"/>
@@ -51,8 +51,8 @@
 
         
         <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
-            <Button Text="Scores" Style="{StaticResource MenuButtonStyle}" />
-            <Button Text="Replay" Style="{StaticResource MenuButtonStyle}" />
+            <Button Text="Scores"  Style="{StaticResource MenuButtonStyle}" WidthRequest="200" />
+            <Button Text="Replay" Style="{StaticResource MenuButtonStyle}" WidthRequest="200"/>
         </VerticalStackLayout>
 
        
@@ -67,8 +67,8 @@
 
        
         <HorizontalStackLayout Grid.Column="1" VerticalOptions="End" HorizontalOptions="Center" Spacing="20" Margin="0,0,0,20">
-            <Button Text="2 JOUEURS" Style="{StaticResource MenuButtonStyle}" WidthRequest="120"/>
-            <Button Text="VS BOT" Style="{StaticResource MenuButtonStyle}" WidthRequest="120"/>
+            <Button Text="2 JOUEURS" Style="{StaticResource MenuButtonStyle}" WidthRequest="200"/>
+            <Button Text="VS BOT" Style="{StaticResource MenuButtonStyle}" WidthRequest="200"/>
         </HorizontalStackLayout>
     </Grid>
 </ContentPage>
