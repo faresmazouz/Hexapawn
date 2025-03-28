@@ -13,12 +13,6 @@
         <Setter Property="SelectedIndicatorColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray100}}"/>
     </Style>
 
-    <Style TargetType="Border">
-        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
-        <Setter Property="StrokeShape" Value="Rectangle"/>
-        <Setter Property="StrokeThickness" Value="1"/>
-    </Style>
-
     <Style TargetType="BoxView">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
     </Style>
@@ -132,12 +126,17 @@
         </Setter>
     </Style>
 
-    <Style TargetType="Frame">
-        <Setter Property="HasShadow" Value="False" />
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
-        <Setter Property="CornerRadius" Value="8" />
+    <Style TargetType="Border">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="8" />
+            </Setter.Value>
+        </Setter>
     </Style>
+
 
     <Style TargetType="ImageButton">
         <Setter Property="Opacity" Value="1" />
@@ -392,7 +391,7 @@
             </VisualStateGroupList>
         </Setter>
     </Style>
-  
+
     <!--
     <Style TargetType="TitleBar">
         <Setter Property="MinimumHeightRequest" Value="32"/>
@@ -448,4 +447,37 @@
         <Setter Property="SelectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
     </Style>
 
+
+    <Style x:Key="MenuButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="#F2EAEA" />
+        <Setter Property="TextColor" Value="Black" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="CornerRadius" Value="20" />
+        <Setter Property="HeightRequest" Value="45" />
+        <Setter Property="Padding" Value="10,5" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow Brush="Black" Offset="5,5" Opacity="0.5" Radius="10" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    
+
+
+
 </ResourceDictionary>
+    
+    
+    
+    
+
+
+    
+    
+
+
+

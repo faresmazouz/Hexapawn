@@ -13,7 +13,7 @@
         Route="MainPage" />
     <ShellContent
         Title="Home0"
-        ContentTemplate="{DataTemplate local:NewPage1}"
+        ContentTemplate="{DataTemplate local:NewPage2}"
         Route="NewPage1" />
 
 </Shell>
