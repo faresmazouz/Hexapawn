@@ -55,8 +55,14 @@
 
         
         <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
-            <Button Text="Scores"  Style="{StaticResource MenuButtonStyle}" WidthRequest="200" />
-            <Button Text="Replay" Style="{StaticResource MenuButtonStyle}" WidthRequest="200"/>
+            <Button Text="Scores"  
+                    Style="{StaticResource MenuButtonStyle}" 
+                    WidthRequest="200" />
+            
+            <Button Text="Replay" 
+                    Style="{StaticResource MenuButtonStyle}" 
+                    WidthRequest="200"/>
+                    
         </VerticalStackLayout>
 
        
@@ -67,12 +73,19 @@
                TextColor="White"
                HorizontalOptions="Center"
                VerticalOptions="Start"
-               Margin="0,10,0,0"/>
+               Margin="0,10,0,0"
+               />
 
        
         <HorizontalStackLayout Grid.Column="1" VerticalOptions="End" HorizontalOptions="Center" Spacing="20" Margin="0,0,0,20">
-            <Button Text="2 JOUEURS" Style="{StaticResource MenuButtonStyle}" WidthRequest="200"/>
-            <Button Text="VS BOT" Style="{StaticResource MenuButtonStyle}" WidthRequest="200"/>
+            <Button Text="2 JOUEURS" 
+                    Style="{StaticResource MenuButtonStyle}" 
+                    WidthRequest="200"/>
+            
+            <Button Text="VS BOT" 
+                    Style="{StaticResource MenuButtonStyle}" 
+                    WidthRequest="200"/>
+            
         </HorizontalStackLayout>
     </Grid>
 </ContentPage>
