@@ -17,19 +17,19 @@
 
 
                     <Label Text="Nombre de parties totales jouées contre un BOT : 4484"
-                           TextColor="White" FontSize="16" FontFamily="OpenSansBold"/>
+                           TextColor="White" FontSize="50" FontFamily="OpenSansBold"/>
                     <Label Text="Nombre de parties jouées par le BOT : 12"
-                           TextColor="White" FontSize="16" FontFamily="OpenSansBold"/>
+                           TextColor="White" FontSize="50" FontFamily="OpenSansBold"/>
                     <Label Text="Niveau du bot : Amateur"
-                           TextColor="White" FontSize="16" FontFamily="OpenSansBold"/>
+                           TextColor="White" FontSize="50" FontFamily="OpenSansBold"/>
 
 
                     <Grid ColumnDefinitions="*,*">
                         <Label Text="Victoires : 2242"
-                               TextColor="White" FontSize="16" FontFamily="OpenSansBold"
+                               TextColor="White" FontSize="60" FontFamily="OpenSansBold"
                                Grid.Column="0"/>
                         <Label Text="Défaites : 2242"
-                               TextColor="White" FontSize="16" FontFamily="OpenSansBold"
+                               TextColor="White" FontSize="60" FontFamily="OpenSansBold"
                                HorizontalTextAlignment="End"
                                Grid.Column="1"/>
                     </Grid>
@@ -48,6 +48,7 @@
                             HeightRequest="50"
                             Padding="10"
                             HorizontalOptions="Center"
+                            VerticalOptions="EndAndExpand"
                             WidthRequest="300">
                     </Button>
 
