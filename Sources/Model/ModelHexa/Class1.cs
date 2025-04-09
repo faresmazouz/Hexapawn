@@ -6,6 +6,5 @@ namespace ModelHexa
     {
         private
             bool isFirstMove;
-        iabzcaboiucoiboiub
     }
 }
