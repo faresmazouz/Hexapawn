@@ -2,9 +2,22 @@
 
 namespace ModelHexa
 {
-    public class Pawn
+    public struct Pawn
     {
-        private
-            bool isFirstMove;
+        public TeamColor Color { get; set; }
+        public Pawn()
+        {
+            Color = TeamColor.Unknown;
+        }
+        public Pawn(TeamColor T)
+        {
+            Color = T;
+        }
+    }
+    public enum TeamColor
+    {
+        Unknown,
+        Player1,
+        Player2,
     }
 }

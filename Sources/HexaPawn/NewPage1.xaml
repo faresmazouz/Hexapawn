@@ -48,7 +48,6 @@
                             HeightRequest="50"
                             Padding="10"
                             HorizontalOptions="Center"
-                            VerticalOptions="EndAndExpand"
                             WidthRequest="300">
                     </Button>
 
