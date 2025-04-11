@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Maui.Graphics.Platform;
-
-namespace ModelHexa
+﻿namespace ModelHexa
 {
-    class Cell
+    public class Cell
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -30,7 +23,7 @@ namespace ModelHexa
         {
             return pawn == null;
         }
-        public void setPawn(Pawn pawn)
+        public void SetPawn(Pawn p)
         {
             pawn = p;
         }
