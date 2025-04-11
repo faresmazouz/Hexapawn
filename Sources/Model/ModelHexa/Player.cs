@@ -15,12 +15,13 @@ namespace ModelHexa
         public void PlayTurn() { }
         public virtual void MovePawn() { }
         public Move ChooseMove() {return new Move(); }
-        public enum Move
-        {
-            cantMove,
-            eat,
-            moveBy2,
-            moveBy1,
-        }
+    }
+    public enum Move
+    {
+        cantMove,
+        eatRight,
+        eatLeft,
+        moveBy2,
+        moveBy1,
     }
 }

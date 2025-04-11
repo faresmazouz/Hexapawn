@@ -4,7 +4,7 @@ namespace ModelHexa
     {
         public int X { get; set; }
         public int Y { get; set; }
-        private Pawn? pawn;
+        public Pawn? pawn { get; }
 
 
         public Cell(int x, int y, Pawn p)
