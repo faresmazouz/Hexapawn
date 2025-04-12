@@ -32,5 +32,15 @@ namespace ModelHexa
                 }
             }
         }
+        public Cell GetCell(int x, int y)
+        {
+            if (x >= 0 && x < length && y >= 0 && y < length)
+                return boardOfCell[x, y];
+            return null;
+        }
+
+        public int Length => length;
+
+
     }
 }
