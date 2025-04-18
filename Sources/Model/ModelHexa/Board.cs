@@ -9,7 +9,7 @@ namespace ModelHexa
     {
         private readonly Cell[,] boardOfCell;
         readonly int length;
-        public Board(Cell[,] boardOfCell, int length)
+        public Board(int length)
         {
             this.length = length;
             this.boardOfCell = new Cell[length, length];
