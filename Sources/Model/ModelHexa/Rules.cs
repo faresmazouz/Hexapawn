@@ -1,7 +1,4 @@
-﻿
-using GameController;
-
-namespace ModelHexa
+﻿namespace ModelHexa
 {
     public class Rules
     {

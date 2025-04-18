@@ -4,7 +4,7 @@ namespace ModelHexa
     {
         public int X { get; set; }
         public int Y { get; set; }
-        public Pawn? pawn { get; }
+        public Pawn? pawn { get; set; }
 
 
         public Cell(int x, int y, Pawn p)
@@ -22,10 +22,6 @@ namespace ModelHexa
         public bool Empty()
         {
             return pawn == null;
-        }
-        public void SetPawn(Pawn p)
-        {
-            pawn = p;
         }
 
     }
