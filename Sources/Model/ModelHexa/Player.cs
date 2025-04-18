@@ -18,6 +18,7 @@ namespace ModelHexa
     }
     public enum Move
     {
+        Unknown,
         cantMove,
         eatRight,
         eatLeft,
