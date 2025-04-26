@@ -122,6 +122,23 @@ namespace ModelHexa
             return true;
         }
 
+        public void affiche()
+        {
+            for (int i = length-1; i >= 0; i--)
+            {
+                for (int j = 0; j <length; j++)
+                {
+                    if (boardOfCell[i, j].pawn.HasValue)
+                    {
+                        if (boardOfCell[i, j].pawn.Value.Color == TeamColor.Player1) Console.Write(" W ");
+                        else Console.Write(" B ");
+                    }
+                    else Console.Write(" _ ");
+                }
+                Console.Write("\n");
+            }
+        }
+
 
         public int Length => length;
 
