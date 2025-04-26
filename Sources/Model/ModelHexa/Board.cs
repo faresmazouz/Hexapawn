@@ -7,7 +7,7 @@ namespace ModelHexa
 {
     public class Board
     {
-        private readonly Cell[,] boardOfCell;
+        private Cell[,] boardOfCell { get; }
         readonly int length;
         public Board(int length)
         {
@@ -59,6 +59,66 @@ namespace ModelHexa
             }
             tab1=t1.ToArray();
             tab2=t2.ToArray();
+            return true;
+        }
+
+
+        public bool MovePawn(Rules r, Player p, Cell c, Move m, ref bool win)
+        {
+            if (m==Move.cantMove||!r.isMoveValid(this, m, p.teamColor, c)) return false;
+            int X, Y;
+            Pawn newp;
+            if (p.teamColor == TeamColor.Player1)
+            {
+                if (m == Move.eatLeft)
+                {
+                    X = c.X + 1;
+                    Y= c.Y - 1;
+                }
+                else if (m == Move.eatRight)
+                {
+                    X = c.X + 1;
+                    Y = c.Y + 1;
+                }
+                else if (m == Move.moveBy2)
+                {
+                    X = c.X + 2;
+                    Y = c.Y;
+                }
+                else
+                {
+                    X = c.X + 1;
+                    Y = c.Y;
+                }
+                if (X == length-1) win=true;
+            }
+            else
+            {
+                if (m == Move.eatLeft)
+                {
+                    X = c.X - 1;
+                    Y = c.Y - 1;
+                }
+                else if (m == Move.eatRight)
+                {
+                    X = c.X - 1;
+                    Y = c.Y + 1;
+                }
+                else if (m == Move.moveBy2)
+                {
+                    X = c.X -2;
+                    Y = c.Y;
+                }
+                else
+                {
+                    X = c.X - 1;
+                    Y = c.Y;
+                }
+                if (X==0) win = true;
+            }
+            newp = new Pawn(p.teamColor);
+            boardOfCell[X, Y].pawn = newp;
+            boardOfCell[c.X, c.Y].pawn = null;
             return true;
         }
 

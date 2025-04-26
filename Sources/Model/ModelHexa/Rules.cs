@@ -4,19 +4,19 @@
     {
         public bool isMoveValid(Board b, Move move, TeamColor t, Cell c)
         {
-            if (t==TeamColor.Unknown||move==Move.cantMove|| move==Move.Unknown||c==null||b==null) return false;
+            if (t==TeamColor.Unknown||move==Move.cantMove||c==null||b==null) return false;
             else if (! c.pawn.HasValue || c.pawn.Value.Color!=t) return false;
             else if (move == Move.cantMove) return false;
             else if (move == Move.eatLeft)
             {
                 if (t == TeamColor.Player1)
                 {
-                    Cell? tempc = b.GetCell((c.X) + 1, (c.Y) + 1);
+                    Cell? tempc = b.GetCell((c.X) + 1, (c.Y) - 1);
                     if (tempc==null||!tempc.pawn.HasValue || t == tempc.pawn.Value.Color) return false;
                 }
                 else
                 {
-                    Cell? tempc = b.GetCell(c.X - 1, c.Y + 1);
+                    Cell? tempc = b.GetCell(c.X - 1, c.Y - 1);
                     if (tempc == null || !tempc.pawn.HasValue || t == tempc.pawn.Value.Color) return false;
                 }
             }
@@ -24,12 +24,12 @@
             {
                 if (t == TeamColor.Player1)
                 {
-                    Cell? tempc = b.GetCell((c.X) + 1, (c.Y) - 1);
+                    Cell? tempc = b.GetCell((c.X) + 1, (c.Y) + 1);
                     if (tempc == null || !tempc.pawn.HasValue || t == tempc.pawn.Value.Color) return false;
                 }
                 else
                 {
-                    Cell? tempc = b.GetCell(c.X - 1, c.Y - 1);
+                    Cell? tempc = b.GetCell(c.X - 1, c.Y + 1);
                     if (tempc == null || !tempc.pawn.HasValue || t == tempc.pawn.Value.Color) return false;
                 }
             }

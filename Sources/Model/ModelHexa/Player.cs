@@ -4,7 +4,7 @@ namespace ModelHexa
     public class Player
     {
         readonly string name;
-        readonly TeamColor teamColor;
+        public readonly TeamColor teamColor;
 
         public Player(string name, TeamColor teamColor)
         {
@@ -18,7 +18,6 @@ namespace ModelHexa
     }
     public enum Move
     {
-        Unknown,
         cantMove,
         eatRight,
         eatLeft,
