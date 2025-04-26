@@ -39,6 +39,30 @@ namespace ModelHexa
             return null;
         }
 
+        public bool allPawns(ref Cell[] tab1, ref Cell[] tab2)
+        {
+            Cell? tmpCell;
+            List<Cell> t1=new List<Cell>();
+            List<Cell> t2 = new List<Cell>();
+            for (int i = 0; i < length; i++)
+            {
+                for (int j = 0; j < length; j++)
+                {
+                    tmpCell = GetCell(i, j);
+                    if (tmpCell != null && tmpCell.pawn.HasValue)
+                    {
+                        if (tmpCell.pawn.Value.Color == TeamColor.Player1) t1.Add(tmpCell);
+                        else if (tmpCell.pawn.Value.Color == TeamColor.Player2) t2.Add(tmpCell);
+                        else return false;
+                    }
+                }
+            }
+            tab1=t1.ToArray();
+            tab2=t2.ToArray();
+            return true;
+        }
+
+
         public int Length => length;
 
 

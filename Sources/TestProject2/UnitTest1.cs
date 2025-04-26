@@ -7,7 +7,7 @@ namespace TestProject2
         public void Test1()
         {
             Board b=new Board(3);
-            Assert.True(b.GetCell(0, 0).pawn.HasValue);
+            Assert.True(b.allPawns().Length==6);
         }
     }
 }
