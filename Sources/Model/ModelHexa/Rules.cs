@@ -48,6 +48,7 @@
             }
             else if (move == Move.moveBy2)
             {
+                if (b.Length<=3) return false;
                 if (t == TeamColor.Player1)
                 {
                     if (c.X != 0) return false;

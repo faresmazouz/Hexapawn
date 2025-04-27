@@ -4,7 +4,7 @@ using ModelHexa;
 
 Console.WriteLine("Hello, World!");
 Rules r = new Rules();
-Board b = new Board(5);
+Board b = new Board(3);
 Player p1 = new Player("Thomas", TeamColor.Player1);
 Player p2=new Player("Thom2",TeamColor.Player2);
 Player[] ptab = [p1, p2];
@@ -20,6 +20,7 @@ while (win == false)
     bool choixFait=false;
     p = ptab[joueur];
     d = r.allMoves(b, p.teamColor);
+    if (d.Count == 0) break;
     b.affiche();
     while (!choixFait)
     { 
