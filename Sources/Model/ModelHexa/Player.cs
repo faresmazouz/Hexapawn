@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace ModelHexa
 {
     public class Player
@@ -10,6 +12,31 @@ namespace ModelHexa
         {
             this.name = name;
             this.teamColor = teamColor;
+        }
+
+
+        public void PlayTurn(Dictionary<Cell, List<Move>> mymoves, Board b, Rules r, Player nextp, ref TeamColor winner)
+        {
+            b.affiche();
+            Dictionary<Cell, List<Move>> nextdict;
+            bool choixfait = false, win = false;
+            Cell cmove=new Cell(0,0);
+            Move move=Move.cantMove;
+            while (!choixfait)
+            {
+                cmove = ChoosePawn(mymoves);
+                move = ChooseMove(mymoves[cmove], cmove, ref choixfait);
+            }
+            b.MovePawn(r, this, cmove, move, ref win);
+            nextdict=r.allMoves(b, nextp.teamColor);
+            if (nextdict.Count == 0 || win == true)
+            {
+                winner=teamColor;
+                return;
+            }
+            nextp.PlayTurn(nextdict,b,r,this,ref winner);
+
+
         }
 
 
