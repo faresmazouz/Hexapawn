@@ -57,7 +57,7 @@
                 }
                 else
                 {
-                    if (c.X != 2) return false;
+                    if (c.X != b.Length-1) return false;
                     Cell? tempc1 = b.GetCell((c.X) - 1, (c.Y));
                     Cell? tempc2 = b.GetCell((c.X) - 2, (c.Y));
                     if (tempc2 == null || tempc1 == null || tempc1.pawn.HasValue || tempc2.pawn.HasValue) return false;

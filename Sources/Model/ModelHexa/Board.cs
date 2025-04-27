@@ -124,8 +124,10 @@ namespace ModelHexa
 
         public void affiche()
         {
+            Console.WriteLine(" X ");
             for (int i = length-1; i >= 0; i--)
             {
+                Console.Write($" {i} ");
                 for (int j = 0; j <length; j++)
                 {
                     if (boardOfCell[i, j].pawn.HasValue)
@@ -137,6 +139,12 @@ namespace ModelHexa
                 }
                 Console.Write("\n");
             }
+            Console.Write("   ");
+            for (int i=0; i < length; i++)
+            {
+                Console.Write($" {i} ");
+            }
+            Console.Write(" Y \n");
         }
 
 

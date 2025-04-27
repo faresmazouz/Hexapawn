@@ -13,17 +13,20 @@ Player p;
 bool win = false;
 int X, Y;
 Move m;
+Dictionary<Cell, List<Move>> d;
 while (win == false)
 {
     p = ptab[joueur];
+    d = r.allMoves(b, p.teamColor);
     b.affiche();
-    Console.WriteLine($"{p.teamColor}, entrez le Y");
-    X = int.Parse(Console.ReadLine());
-    Console.WriteLine($"{p.teamColor}, entrez le X");
-    Y = int.Parse(Console.ReadLine());
+    Cell cmove = p.ChoosePawn(d);
+    foreach(Move move in d[cmove])
+    {
+        Console.Write($"{move}  ");
+    }
     Console.WriteLine($"{p.teamColor}, entrez votre mouvement");
     m = (Move)Enum.Parse(typeof(Move), Console.ReadLine());
-    b.MovePawn(r, p, b.GetCell(X, Y), m, ref win);
+    b.MovePawn(r, p, cmove, m, ref win);
     joueur=(joueur+1)%2;
 }
 
