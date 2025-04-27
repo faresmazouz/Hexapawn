@@ -34,7 +34,7 @@
                             StrokeThickness="2"
                             StrokeShape="RoundRectangle 10"
                             BackgroundColor="Transparent">
-                        <ImageButton Source="normal_theme.png"
+                        <ImageButton Source="normal.jpg"
                                      WidthRequest="150"
                                      HeightRequest="150"
                                      BackgroundColor="Transparent"
@@ -50,7 +50,7 @@
                             StrokeThickness="2"
                             StrokeShape="RoundRectangle 10"
                             BackgroundColor="Transparent">
-                        <ImageButton Source="hexachaos_theme.png"
+                        <ImageButton Source="hexachaos.jpg"
                                      WidthRequest="150"
                                      HeightRequest="150"
                                      BackgroundColor="Transparent"
@@ -66,7 +66,7 @@
                             StrokeThickness="2"
                             StrokeShape="RoundRectangle 10"
                             BackgroundColor="Transparent">
-                        <ImageButton Source="original_theme.png"
+                        <ImageButton Source="original.jpg"
                                      WidthRequest="150"
                                      HeightRequest="150"
                                      BackgroundColor="Transparent"
@@ -82,7 +82,7 @@
                             StrokeThickness="2"
                             StrokeShape="RoundRectangle 10"
                             BackgroundColor="Transparent">
-                        <ImageButton Source="python_theme.png"
+                        <ImageButton Source="plateaupython.jpg"
                                      WidthRequest="150"
                                      HeightRequest="150"
                                      BackgroundColor="Transparent"
