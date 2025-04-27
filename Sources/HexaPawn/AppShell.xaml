@@ -15,5 +15,9 @@
         Title="Scores"
         ContentTemplate="{DataTemplate local:Scores}"
         Route="Scores" />
+    <ShellContent
+        Title="Themes"
+        ContentTemplate="{DataTemplate local:ThemePage}"
+        Route="ThemePage" />
     
 </Shell>
