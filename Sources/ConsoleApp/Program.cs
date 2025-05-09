@@ -63,8 +63,7 @@ bool createPart()
     rep=Console.ReadLine();
     if (rep != "y") return true;
     p1.PlayTurn(r.allMoves(b,p1.teamColor),b,r,p2, ref win);
-    if (win == TeamColor.Player2) Console.WriteLine($"Félicitation, {win} a gagné!");
-    else Console.WriteLine($"Félicitation, {win} a gagné!");
+    Console.WriteLine($"Félicitation, {win} a gagné!");
     return false;
 }
 
