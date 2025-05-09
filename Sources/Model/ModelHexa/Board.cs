@@ -152,4 +152,10 @@ namespace ModelHexa
 
 
     }
+    public enum ActionDebut
+    {
+        LancerPartie
+
+    }
+
 }
