@@ -17,14 +17,14 @@ steps:
   - name: build
     image: mcr.microsoft.com/dotnet/sdk:9.0
     commands:
-      - cd /Sources
+      - cd Sources
       - dotnet restore solution.sln
       - dotnet build solution.sln -c Release --no-restore
 
   - name: test
     image: mcr.microsoft.com/dotnet/sdk:9.0
     commands:
-      - cd /Sources
+      - cd Sources
       - dotnet restore solution.sln
       - dotnet build solution.sln -c Release --no-restore
 
@@ -49,6 +49,6 @@ steps:
   - name: doc
     image: mcr.microsoft.com/dotnet/sdk:9.0
     commands:
-      - cd /Sources
+      - cd Sources
       - dotnet restore solution.sln
       - dotnet build solution.sln -c Release --no-restore
