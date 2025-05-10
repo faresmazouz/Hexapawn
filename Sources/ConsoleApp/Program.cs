@@ -56,9 +56,11 @@ bool createPart()
     }
     Board b= new Board(nbCases);
     Console.WriteLine("Entrez le nom du 1er joueur");
-    Player p1=new Player(Console.ReadLine(),TeamColor.Player1);
+    HumanPlayer p1=new HumanPlayer(Console.ReadLine(),TeamColor.Player1);
     Console.WriteLine("Entrez le nom du 2ème joueur");
-    Player p2 = new Player(Console.ReadLine(), TeamColor.Player2);
+    HumanPlayer p2 = new HumanPlayer(Console.ReadLine(), TeamColor.Player2);
+    p1.BoardChanged += OnBoardChanged;//On branche l'objet à l'évènement
+    p2.BoardChanged += OnBoardChanged;//pareil
     Console.WriteLine("Êtes-vous sûr des informations?(y/n\'importe quoi d\'autre)");
     rep=Console.ReadLine();
     if (rep != "y") return true;
@@ -67,9 +69,10 @@ bool createPart()
     return false;
 }
 
-
-
-
+void OnBoardChanged(object? sender, BoardChangedEventArgs e)//On définit l'évènement
+{
+    e.BoardChanged.affiche();
+}
 
 while (launchGame()) ;
 
@@ -80,8 +83,8 @@ Console.WriteLine("Hello, World!");
 TeamColor winner=TeamColor.Unknown;
 Rules r = new Rules();
 Board b = new Board(3);
-Player p1 = new Player("Thomas", TeamColor.Player1);
-Player p2=new Player("Thom2",TeamColor.Player2);
+HumanPlayer p1 = new HumanPlayer("Thomas", TeamColor.Player1);
+HumanPlayer p2=new HumanPlayer("Thom2",TeamColor.Player2);
 p1.PlayTurn(r.allMoves(b,p1.teamColor),b,r,p2,ref winner);
 Console.WriteLine($"{winner} a gagné!");
 
