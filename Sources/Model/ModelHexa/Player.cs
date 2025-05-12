@@ -8,6 +8,7 @@ namespace ModelHexa
     {
         readonly string name;
         public readonly TeamColor teamColor;
+        public int victoires;
         
 
         public IPlayer(string name, TeamColor teamColor)
@@ -70,9 +71,9 @@ namespace ModelHexa
         public virtual Cell ChoosePawn(Dictionary<Cell, List<Move>> dict)
         {
             int i = 1;
-            List<Cell> l= [];
+            List<Cell> l= [];   //déclaration de liste temporaire contenant les clés du dictionnaire
             Console.WriteLine($"{teamColor}, choisissez votre pion à bouger parmis (X,Y): ");
-            foreach (Cell c in dict.Keys)
+            foreach (Cell c in dict.Keys)   //On remplir la liste temporaire et on en profite pour afficher les pions
             {
                 Console.WriteLine($"{i}. Pion de coordonnées ({c.X},{c.Y})");
                 l.Add(c);

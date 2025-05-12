@@ -9,6 +9,7 @@ bool launchGame()
 {
     string stop;
     int i = 1, choix;
+    Console.WriteLine("Liste des différentes actions:");
     foreach (ActionDebut act in Enum.GetValues(typeof(ActionDebut)))
     {
         Console.WriteLine($"{i}. {chois(act)}");
@@ -43,6 +44,8 @@ string chois(ActionDebut act)
 
 bool createPart()
 {
+    IPlayer theWinner;
+    bool bot;
     Rules r=new Rules();
     int nbCases;
     string rep;
@@ -55,17 +58,25 @@ bool createPart()
         nbCases = int.Parse(Console.ReadLine());
     }
     Board b= new Board(nbCases);
+    Console.WriteLine("Voulez vous que le 1er joueur soit un BOT?(y/n'importe quoi d'autre)");
+    bot = Console.ReadLine()=="y";
     Console.WriteLine("Entrez le nom du 1er joueur");
-    HumanPlayer p1=new HumanPlayer(Console.ReadLine(),TeamColor.Player1);
+    IPlayer p1= bot?new BOTPlayer(TeamColor.Player1, Console.ReadLine()):new HumanPlayer(Console.ReadLine(), TeamColor.Player1);
+    Console.WriteLine("Voulez vous que le 2ème joueur soit un BOT?(y/n'importe quoi d'autre)");
+    bot = Console.ReadLine() == "y";
     Console.WriteLine("Entrez le nom du 2ème joueur");
-    HumanPlayer p2 = new HumanPlayer(Console.ReadLine(), TeamColor.Player2);
+    IPlayer p2 = bot ? new BOTPlayer(TeamColor.Player2, Console.ReadLine()) : new HumanPlayer(Console.ReadLine(), TeamColor.Player2);
     p1.BoardChanged += OnBoardChanged;//On branche l'objet à l'évènement
     p2.BoardChanged += OnBoardChanged;//pareil
     Console.WriteLine("Êtes-vous sûr des informations?(y/n\'importe quoi d\'autre)");
     rep=Console.ReadLine();
     if (rep != "y") return true;
+    b.affiche();
     p1.PlayTurn(r.allMoves(b,p1.teamColor),b,r,p2, ref win);
-    Console.WriteLine($"Félicitation, {win} a gagné!");
+    if (win == TeamColor.Player1) theWinner= p1;
+    else theWinner=p2;
+    theWinner.victoires += 1;
+    Console.WriteLine($"Félicitation, {win} ({theWinner.victoires} victoires) a gagné!");
     return false;
 }
 
