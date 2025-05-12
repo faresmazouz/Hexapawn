@@ -1,23 +1,26 @@
 ﻿
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ObjectiveC;
 
 namespace ModelHexa
 {
-    public class Player
+    public abstract class IPlayer
     {
         readonly string name;
         public readonly TeamColor teamColor;
+        public int victoires;
+        
 
-        public Player(string name, TeamColor teamColor)
+        public IPlayer(string name, TeamColor teamColor)
         {
             this.name = name;
             this.teamColor = teamColor;
         }
 
 
-        public void PlayTurn(Dictionary<Cell, List<Move>> mymoves, Board b, Rules r, Player nextp, ref TeamColor winner)
+        public virtual void PlayTurn(Dictionary<Cell, List<Move>> mymoves, Board b, Rules r, IPlayer nextp, ref TeamColor winner)
         {
-            b.affiche();
+            //b.affiche();
             Dictionary<Cell, List<Move>> nextdict;
             bool choixfait = false, win = false;
             Cell cmove=new Cell(0,0);
@@ -28,6 +31,7 @@ namespace ModelHexa
                 move = ChooseMove(mymoves[cmove], cmove, ref choixfait);
             }
             b.MovePawn(r, this, cmove, move, ref win);
+            OnBoardChanged(new BoardChangedEventArgs(b, this, move, cmove));//On invoque l'évènement auquel on passe l'objet de l'évènement
             nextdict=r.allMoves(b, nextp.teamColor);
             if (nextdict.Count == 0 || win == true)
             {
@@ -40,7 +44,7 @@ namespace ModelHexa
         }
 
 
-        public Move ChooseMove(List<Move> l, Cell c, ref bool choixFait)
+        public virtual Move ChooseMove(List<Move> l, Cell c, ref bool choixFait)
         {
             int choix = 0;
             Move mfin = Move.cantMove;
@@ -64,12 +68,12 @@ namespace ModelHexa
         }
 
 
-        public Cell ChoosePawn(Dictionary<Cell, List<Move>> dict)
+        public virtual Cell ChoosePawn(Dictionary<Cell, List<Move>> dict)
         {
             int i = 1;
-            List<Cell> l= [];
+            List<Cell> l= [];   //déclaration de liste temporaire contenant les clés du dictionnaire
             Console.WriteLine($"{teamColor}, choisissez votre pion à bouger parmis (X,Y): ");
-            foreach (Cell c in dict.Keys)
+            foreach (Cell c in dict.Keys)   //On remplir la liste temporaire et on en profite pour afficher les pions
             {
                 Console.WriteLine($"{i}. Pion de coordonnées ({c.X},{c.Y})");
                 l.Add(c);
@@ -101,6 +105,14 @@ namespace ModelHexa
                 Move.moveBy1 => "Avancer d'une case",
                 Move.moveBy2 => "Avancer de deux cases"
             };
+        }
+        public event EventHandler<BoardChangedEventArgs> BoardChanged;//On utilise le délégué EventHandler pour déclarer l'évènement
+        private void OnBoardChanged(BoardChangedEventArgs b) //On permet d'invoquer l'évènement
+        {
+            if (BoardChanged != null)
+            {
+                BoardChanged(this, b);
+            }
         }
     }
     public enum Move
