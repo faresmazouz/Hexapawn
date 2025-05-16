@@ -106,7 +106,7 @@ namespace TestProject2
         [Fact]
         public void Player_Victoires_Increment()
         {
-            var player = new HumanPlayer("Alice", TeamColor.Player1);
+            var player = new HumanPlayer("Farès", TeamColor.Player1);
             int initial = player.victoires;
             player.victoires++;
             Assert.Equal(initial + 1, player.victoires);
@@ -115,7 +115,7 @@ namespace TestProject2
         [Fact]
         public void HumanPlayer_BoardChanged_Event_IsRaised()
         {
-            var player = new HumanPlayer("Alice", TeamColor.Player1);
+            var player = new HumanPlayer("Farès", TeamColor.Player1);
             bool eventRaised = false;
             player.BoardChanged += (sender, args) => eventRaised = true;
 
