@@ -2,26 +2,20 @@ namespace ModelHexa
 {
     public class Cell
     {
-        public int X { get;}
-        public int Y { get;}
-        public Pawn? pawn { get; set; }
+        public int X { get; private init; }
+        public int Y { get; private init; }
+        public Pawn? Pawn { get; set; }
 
 
-        public Cell(int x, int y, Pawn p)
+        public Cell(int x, int y, Pawn? p=null)
         {
             X = x;
             Y = y;
-            pawn = p;
-        }
-        public Cell(int x, int y)
-        {
-            X = x;
-            Y = y;
-            pawn = null;
+            Pawn = p;
         }
         public bool Empty()
         {
-            return pawn == null;
+            return Pawn == null;
         }
 
     }
