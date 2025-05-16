@@ -102,6 +102,56 @@ namespace TestProject2
             var chosen = bot.ChoosePawn(dict);
             Assert.Contains(chosen, dict.Keys);
         }
+
+        [Fact]
+        public void Player_Victoires_Increment()
+        {
+            var player = new HumanPlayer("Alice", TeamColor.Player1);
+            int initial = player.victoires;
+            player.victoires++;
+            Assert.Equal(initial + 1, player.victoires);
+        }
+
+        [Fact]
+        public void HumanPlayer_BoardChanged_Event_IsRaised()
+        {
+            var player = new HumanPlayer("Alice", TeamColor.Player1);
+            bool eventRaised = false;
+            player.BoardChanged += (sender, args) => eventRaised = true;
+
+            // Création des arguments requis pour BoardChangedEventArgs
+            var board = new Board(3);
+            var move = Move.cantMove;
+            var cell = board[0, 0];
+            var eventArgs = new BoardChangedEventArgs(board, player, move, cell);
+
+            // Utilisation de la réflexion pour appeler la méthode protégée OnBoardChanged
+            var method = typeof(IPlayer).GetMethod("OnBoardChanged", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            method.Invoke(player, new object[] { eventArgs });
+
+            Assert.True(eventRaised);
+        }
+
+        [Fact]
+        public void BOTPlayer_BoardChanged_Event_IsRaised()
+        {
+            var bot = new BOTPlayer(TeamColor.Player2, "BotX");
+            bool eventRaised = false;
+            bot.BoardChanged += (sender, args) => eventRaised = true;
+
+            // Création des arguments requis pour BoardChangedEventArgs
+            var board = new Board(3);
+            var move = Move.cantMove;
+            var cell = board[0, 0];
+            var eventArgs = new BoardChangedEventArgs(board, bot, move, cell);
+
+            // Utilisation de la réflexion pour appeler la méthode protégée OnBoardChanged
+            var method = typeof(IPlayer).GetMethod("OnBoardChanged", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            method.Invoke(bot, new object[] { eventArgs });
+
+            Assert.True(eventRaised);
+        }
+
     }
 
-}    
+}
