@@ -107,7 +107,7 @@ namespace ModelHexa
             };
         }
         public event EventHandler<BoardChangedEventArgs> BoardChanged;//On utilise le délégué EventHandler pour déclarer l'évènement
-        private void OnBoardChanged(BoardChangedEventArgs b) //On permet d'invoquer l'évènement
+        protected void OnBoardChanged(BoardChangedEventArgs b) //On permet d'invoquer l'évènement
         {
             if (BoardChanged != null)
             {

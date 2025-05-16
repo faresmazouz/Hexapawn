@@ -2,7 +2,7 @@ namespace ModelHexa
 {
     public struct Pawn
     {
-        public TeamColor Color { get; set; }
+        public TeamColor Color { get; private init; }
         public Pawn()
         {
             Color = TeamColor.Unknown;

@@ -9,6 +9,10 @@ namespace ModelHexa
     {
         private Cell[,] boardOfCell { get; }
         readonly int length;
+        /// <summary>
+        /// Plateau de jeu contenant un tableau à deux dimensions de Cell. C'est sur lui que va se dérouler la partie
+        /// </summary>
+        /// <param name="length">Le plateau va toujours être carré et cette propriété va donner la longueur des cotés. Ce paramètre va aider aux calculs</param>
         public Board(int length)
         {
             this.length = length;
@@ -32,11 +36,14 @@ namespace ModelHexa
                 }
             }
         }
-        public Cell? GetCell(int x, int y)
+        public Cell? this[int x, int y]
         {
-            if (x >= 0 && x < length && y >= 0 && y < length)
-                return boardOfCell[x, y];
-            return null;
+            get
+            {
+                if (x >= 0 && x < length && y >= 0 && y < length)
+                    return boardOfCell[x, y];
+                return null;
+            }
         }
 
         public bool allPawns(ref Cell[] tab1, ref Cell[] tab2)
@@ -48,11 +55,11 @@ namespace ModelHexa
             {
                 for (int j = 0; j < length; j++)
                 {
-                    tmpCell = GetCell(i, j);
-                    if (tmpCell != null && tmpCell.pawn.HasValue)
+                    tmpCell = this[i, j];
+                    if (tmpCell != null && tmpCell.Pawn.HasValue)
                     {
-                        if (tmpCell.pawn.Value.Color == TeamColor.Player1) t1.Add(tmpCell);
-                        else if (tmpCell.pawn.Value.Color == TeamColor.Player2) t2.Add(tmpCell);
+                        if (tmpCell.Pawn.Value.Color == TeamColor.Player1) t1.Add(tmpCell);
+                        else if (tmpCell.Pawn.Value.Color == TeamColor.Player2) t2.Add(tmpCell);
                         else return false;
                     }
                 }
@@ -117,8 +124,8 @@ namespace ModelHexa
                 if (X==0) win = true;
             }
             newp = new Pawn(p.teamColor);
-            boardOfCell[X, Y].pawn = newp;
-            boardOfCell[c.X, c.Y].pawn = null;
+            boardOfCell[X, Y].Pawn = newp;
+            boardOfCell[c.X, c.Y].Pawn = null;
             return true;
         }
 
@@ -130,9 +137,9 @@ namespace ModelHexa
                 Console.Write($" {i} ");
                 for (int j = 0; j <length; j++)
                 {
-                    if (boardOfCell[i, j].pawn.HasValue)
+                    if (boardOfCell[i, j].Pawn.HasValue)
                     {
-                        if (boardOfCell[i, j].pawn.Value.Color == TeamColor.Player1) Console.Write(" W ");
+                        if (boardOfCell[i, j].Pawn.Value.Color == TeamColor.Player1) Console.Write(" W ");
                         else Console.Write(" B ");
                     }
                     else Console.Write(" _ ");
