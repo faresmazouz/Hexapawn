@@ -21,7 +21,7 @@ namespace TestProject2
         public void Board_GetCell_ReturnsCorrectCell()
         {
             var b = new Board(3);
-            var cell = b.GetCell(0, 0);
+            var cell = b[0, 0];
             Assert.NotNull(cell);
             Assert.Equal(0, cell.X);
             Assert.Equal(0, cell.Y);
@@ -33,7 +33,7 @@ namespace TestProject2
             var b = new Board(3);
             var r = new Rules();
             var p = new HumanPlayer("Test", TeamColor.Player1);
-            var cell = b.GetCell(0, 0);
+            var cell = b[0, 0];
             bool win = false;
             var result = b.MovePawn(r, p, cell, Move.cantMove, ref win);
             Assert.False(result);
@@ -71,7 +71,7 @@ namespace TestProject2
         {
             var b = new Board(3);
             var r = new Rules();
-            var cell = b.GetCell(0, 0);
+            var cell = b[0, 0];
             var result = r.isMoveValid(b, Move.cantMove, TeamColor.Player1, cell);
             Assert.False(result);
         }
