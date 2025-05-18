@@ -8,7 +8,7 @@ namespace ModelHexa
 {
     public class BOTPlayer: IPlayer
     {
-        public BOTPlayer(TeamColor teamColor, string name="Robot"):base(name,teamColor) { }
+        public BOTPlayer(TeamColor teamColor):base("Robot",teamColor) { }
         public override Move ChooseMove(List<Move> l, Cell c, ref bool choixFait)
         {
             Random rdm = new Random();              //déclare un objet random

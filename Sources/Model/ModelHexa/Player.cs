@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Globalization;
 using System.Runtime.InteropServices.ObjectiveC;
 
 namespace ModelHexa
@@ -9,6 +10,7 @@ namespace ModelHexa
         readonly string name;
         public readonly TeamColor teamColor;
         public int victoires;
+        public string Name => name;
         
 
         public IPlayer(string name, TeamColor teamColor)
