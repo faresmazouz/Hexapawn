@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelHexa
 {
-    public class BOTPlayer: IPlayer
+    public class BOTPlayer: Player
     {
         public BOTPlayer(TeamColor teamColor):base("Robot",teamColor) { }
         public override Move ChooseMove(List<Move> l, Cell c, ref bool choixFait)

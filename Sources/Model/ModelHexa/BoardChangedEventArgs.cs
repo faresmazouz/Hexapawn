@@ -9,10 +9,10 @@ namespace ModelHexa
     public class BoardChangedEventArgs : EventArgs
     {
         public Board BoardChanged { get; set; }
-        public IPlayer Player { get; set; }
+        public Player Player { get; set; }
         public Move MoveUsed { get; set; }
         public Cell CellChanged { get; set; }
-        public BoardChangedEventArgs(Board b, IPlayer p, Move m, Cell c)
+        public BoardChangedEventArgs(Board b, Player p, Move m, Cell c)
         {
             BoardChanged = b;
             Player = p;

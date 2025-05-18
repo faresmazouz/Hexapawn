@@ -126,7 +126,7 @@ namespace TestProject2
             var eventArgs = new BoardChangedEventArgs(board, player, move, cell);
 
             // Utilisation de la réflexion pour appeler la méthode protégée OnBoardChanged
-            var method = typeof(IPlayer).GetMethod("OnBoardChanged", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            var method = typeof(Player).GetMethod("OnBoardChanged", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
             method.Invoke(player, new object[] { eventArgs });
 
             Assert.True(eventRaised);
@@ -146,7 +146,7 @@ namespace TestProject2
             var eventArgs = new BoardChangedEventArgs(board, bot, move, cell);
 
             // Utilisation de la réflexion pour appeler la méthode protégée OnBoardChanged
-            var method = typeof(IPlayer).GetMethod("OnBoardChanged", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            var method = typeof(Player).GetMethod("OnBoardChanged", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
             method.Invoke(bot, new object[] { eventArgs });
 
             Assert.True(eventRaised);
