@@ -70,7 +70,7 @@ namespace ModelHexa
         }
 
 
-        public bool MovePawn(Rules r, IPlayer p, Cell c, Move m, ref bool win)
+        public bool MovePawn(Rules r, Player p, Cell c, Move m, ref bool win)
         {
             if (m==Move.cantMove||!r.isMoveValid(this, m, p.teamColor, c)) return false;
             int X, Y;

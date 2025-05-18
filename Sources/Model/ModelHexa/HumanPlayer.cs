@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelHexa
 {
-    public class HumanPlayer: IPlayer
+    public class HumanPlayer: Player
     {
         public HumanPlayer(string name, TeamColor teamColor) : base(name, teamColor){}
         public override Move ChooseMove(List<Move> l, Cell c, ref bool choixFait)
@@ -25,7 +25,7 @@ namespace ModelHexa
             choix = int.Parse(Console.ReadLine()) - 1;
             while (choix >= l.Count || choix < -1)
             {
-                Console.Write("Numéro incorrect, entrez le bon numéro de l'action: ");
+                OnUserChoose(new WrongInputEventArgs("Numéro incorrect, entrez le bon numéro de l'action: "));
                 choix = int.Parse(Console.ReadLine()) - 1;
             }
             if (choix == -1) return Move.cantMove;
@@ -48,14 +48,14 @@ namespace ModelHexa
             Console.Write("\n");
             while (i >= l.Count || i < 0)
             {
-                Console.Write($"{teamColor}, le numéro entré est incorrect, s'il vous plaît entrez le bon numéro: ");
+                OnUserChoose(new WrongInputEventArgs($"{teamColor}, le numéro entré est incorrect, s'il vous plaît entrez le bon numéro: "));
                 i = int.Parse(Console.ReadLine()) - 1;
                 Console.Write("\n");
             }
             return l[i];
 
         }
-        public override void PlayTurn(Dictionary<Cell, List<Move>> mymoves, Board b, Rules r, IPlayer nextp, ref TeamColor winner)
+        public override void PlayTurn(Dictionary<Cell, List<Move>> mymoves, Board b, Rules r, Player nextp, ref TeamColor winner)
         {
             //b.affiche();
             Dictionary<Cell, List<Move>> nextdict;

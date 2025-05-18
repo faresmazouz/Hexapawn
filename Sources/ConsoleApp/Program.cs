@@ -84,7 +84,7 @@ void affichClassement(Dictionary<string, int> dictScores, Dictionary<string,int>
 
 bool createPart(ref Dictionary<string, int> dictScores)
 {
-    IPlayer theWinner;
+    Player theWinner;
     bool bot;
     Rules r=new Rules();
     int nbCases;
@@ -111,7 +111,7 @@ bool createPart(ref Dictionary<string, int> dictScores)
             nomJoueur = Console.ReadLine();
         }
     }
-    IPlayer p1 = bot ? new BOTPlayer(TeamColor.Player1) : new HumanPlayer(nomJoueur, TeamColor.Player1);
+    Player p1 = bot ? new BOTPlayer(TeamColor.Player1) : new HumanPlayer(nomJoueur, TeamColor.Player1);
     dictScores.TryAdd(p1.Name, 0);
     Console.WriteLine("Voulez vous que le 2ème joueur soit un BOT?(y/n'importe quoi d'autre)");
     bot = Console.ReadLine() == "y";
@@ -125,10 +125,14 @@ bool createPart(ref Dictionary<string, int> dictScores)
             nomJoueur = Console.ReadLine();
         }
     }
-    IPlayer p2 = bot ? new BOTPlayer(TeamColor.Player2) : new HumanPlayer(nomJoueur, TeamColor.Player2);
+    Player p2 = bot ? new BOTPlayer(TeamColor.Player2) : new HumanPlayer(nomJoueur, TeamColor.Player2);
     dictScores.TryAdd(p2.Name, 0);
     p1.BoardChanged += OnBoardChanged;//On branche l'objet à l'évènement
     p2.BoardChanged += OnBoardChanged;//pareil
+    p1.UserChoose += OnUserChoose;
+    p2.UserChoose += OnUserChoose;
+    p1.UserHaveToChoose += OnUserHaveToChoose;
+    p2.UserHaveToChoose += OnUserHaveToChoose;
     Console.WriteLine("Êtes-vous sûr des informations?(y/n\'importe quoi d\'autre)");
     rep=Console.ReadLine();
     if (rep != "y") return true;
@@ -152,16 +156,26 @@ Dictionary<string, int> dictScores = new Dictionary<string, int>();
 while (launchGame(ref dictScores)) ;
 
 
+void OnUserHaveToChoose(object? sender, UserHaveToChooseEventArgs e)
+{
+    Console.WriteLine(e.Question);
+}
 
 
-Console.WriteLine("Hello, World!");
-TeamColor winner=TeamColor.Unknown;
-Rules r = new Rules();
-Board b = new Board(3);
-HumanPlayer p1 = new HumanPlayer("Thomas", TeamColor.Player1);
-HumanPlayer p2=new HumanPlayer("Thom2",TeamColor.Player2);
-p1.PlayTurn(r.allMoves(b,p1.teamColor),b,r,p2,ref winner);
-Console.WriteLine($"{winner} a gagné!");
+void OnUserChoose(object? sender, WrongInputEventArgs e)
+{
+    Console.WriteLine(e.ErrorMessage);
+}
+
+
+//Console.WriteLine("Hello, World!");
+//TeamColor winner=TeamColor.Unknown;
+//Rules r = new Rules();
+//Board b = new Board(3);
+//HumanPlayer p1 = new HumanPlayer("Thomas", TeamColor.Player1);
+//HumanPlayer p2=new HumanPlayer("Thom2",TeamColor.Player2);
+//p1.PlayTurn(r.allMoves(b,p1.teamColor),b,r,p2,ref winner);
+//Console.WriteLine($"{winner} a gagné!");
 
 public enum ActionDebut
 {
