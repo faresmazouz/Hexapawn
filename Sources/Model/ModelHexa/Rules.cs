@@ -2,69 +2,90 @@
 {
     public class Rules
     {
+        
         public bool isMoveValid(Board b, Move move, TeamColor t, Cell c)
         {
-            if (t==TeamColor.Unknown||move==Move.cantMove||c==null||b==null) return false;
-            else if (! c.Pawn.HasValue || c.Pawn.Value.Color!=t) return false;
-            else if (move == Move.cantMove) return false;
-            else if (move == Move.eatLeft)
+            if (t == TeamColor.Unknown || move == Move.cantMove || c == null || b == null)
+                return false;
+            if (!c.Pawn.HasValue || c.Pawn.Value.Color != t)
+                return false;
+
+            switch (move)
             {
-                if (t == TeamColor.Player1)
-                {
-                    Cell? tempc = b[(c.X) + 1, (c.Y) - 1];
-                    if (tempc==null||!tempc.Pawn.HasValue || t == tempc.Pawn.Value.Color) return false;
-                }
-                else
-                {
-                    Cell? tempc = b[c.X - 1, c.Y - 1];
-                    if (tempc == null || !tempc.Pawn.HasValue || t == tempc.Pawn.Value.Color) return false;
-                }
+                case Move.eatLeft:
+                    if (t == TeamColor.Player1)
+                    {
+                        Cell? tempc = b[c.X + 1, c.Y - 1];
+                        if (tempc == null || !tempc.Pawn.HasValue || t == tempc.Pawn.Value.Color)
+                            return false;
+                    }
+                    else
+                    {
+                        Cell? tempc = b[c.X - 1, c.Y - 1];
+                        if (tempc == null || !tempc.Pawn.HasValue || t == tempc.Pawn.Value.Color)
+                            return false;
+                    }
+                    break;
+
+                case Move.eatRight:
+                    if (t == TeamColor.Player1)
+                    {
+                        Cell? tempc = b[c.X + 1, c.Y + 1];
+                        if (tempc == null || !tempc.Pawn.HasValue || t == tempc.Pawn.Value.Color)
+                            return false;
+                    }
+                    else
+                    {
+                        Cell? tempc = b[c.X - 1, c.Y + 1];
+                        if (tempc == null || !tempc.Pawn.HasValue || t == tempc.Pawn.Value.Color)
+                            return false;
+                    }
+                    break;
+
+                case Move.moveBy1:
+                    if (t == TeamColor.Player1)
+                    {
+                        Cell? tempc = b[c.X + 1, c.Y];
+                        if (tempc == null || tempc.Pawn.HasValue)
+                            return false;
+                    }
+                    else
+                    {
+                        Cell? tempc = b[c.X - 1, c.Y];
+                        if (tempc == null || tempc.Pawn.HasValue)
+                            return false;
+                    }
+                    break;
+
+                case Move.moveBy2:
+                    if (b.Length <= 3)
+                        return false;
+                    if (t == TeamColor.Player1)
+                    {
+                        if (c.X != 0)
+                            return false;
+                        Cell? tempc1 = b[c.X + 1, c.Y];
+                        Cell? tempc2 = b[c.X + 2, c.Y];
+                        if (tempc2 == null || tempc1 == null || tempc1.Pawn.HasValue || tempc2.Pawn.HasValue)
+                            return false;
+                    }
+                    else
+                    {
+                        if (c.X != b.Length - 1)
+                            return false;
+                        Cell? tempc1 = b[c.X - 1, c.Y];
+                        Cell? tempc2 = b[c.X - 2, c.Y];
+                        if (tempc2 == null || tempc1 == null || tempc1.Pawn.HasValue || tempc2.Pawn.HasValue)
+                            return false;
+                    }
+                    break;
+
+                case Move.cantMove:
+                default:
+                    return false;
             }
-            else if (move == Move.eatRight)
-            {
-                if (t == TeamColor.Player1)
-                {
-                    Cell? tempc = b[(c.X) + 1, (c.Y) + 1];
-                    if (tempc == null || !tempc.Pawn.HasValue || t == tempc.Pawn.Value.Color) return false;
-                }
-                else
-                {
-                    Cell? tempc = b[c.X - 1, c.Y + 1];
-                    if (tempc == null || !tempc.Pawn.HasValue || t == tempc.Pawn.Value.Color) return false;
-                }
-            }
-            else if (move == Move.moveBy1)
-            {
-                if (t == TeamColor.Player1)
-                {
-                    Cell? tempc = b[(c.X) + 1, (c.Y)];
-                    if (tempc == null || tempc.Pawn.HasValue) return false;
-                }
-                else
-                {
-                    Cell? tempc = b[c.X - 1, c.Y];
-                    if (tempc == null || tempc.Pawn.HasValue) return false;
-                }
-            }
-            else if (move == Move.moveBy2)
-            {
-                if (b.Length<=3) return false;
-                if (t == TeamColor.Player1)
-                {
-                    if (c.X != 0) return false;
-                    Cell? tempc1 = b[(c.X) + 1, (c.Y)];
-                    Cell? tempc2 = b[(c.X) + 2, (c.Y)];
-                    if (tempc2 == null || tempc1 == null || tempc1.Pawn.HasValue|| tempc2.Pawn.HasValue) return false;
-                }
-                else
-                {
-                    if (c.X != b.Length-1) return false;
-                    Cell? tempc1 = b[(c.X) - 1, (c.Y)];
-                    Cell? tempc2 = b[(c.X) - 2, (c.Y)];
-                    if (tempc2 == null || tempc1 == null || tempc1.Pawn.HasValue || tempc2.Pawn.HasValue) return false;
-                }
-            }
-                return true;
+
+            return true;
         }
         public Dictionary<Cell, List<Move>> allMoves(Board b, TeamColor t)
         {
