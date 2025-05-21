@@ -135,7 +135,7 @@ namespace TestProject2
         [Fact]
         public void BOTPlayer_BoardChanged_Event_IsRaised()
         {
-            var bot = new BOTPlayer(TeamColor.Player2, "BotX");
+            var bot = new BOTPlayer(TeamColor.Player2);
             bool eventRaised = false;
             bot.BoardChanged += (sender, args) => eventRaised = true;
 
