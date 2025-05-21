@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using ConsoleApp;
 using ModelHexa;
 
 
@@ -177,9 +178,4 @@ void OnUserChoose(object? sender, WrongInputEventArgs e)
 //p1.PlayTurn(r.allMoves(b,p1.teamColor),b,r,p2,ref winner);
 //Console.WriteLine($"{winner} a gagné!");
 
-public enum ActionDebut
-{
-    LancerPartie,
-    CheckScores
 
-}
