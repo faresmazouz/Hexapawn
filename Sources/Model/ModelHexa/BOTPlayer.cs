@@ -1,30 +1,43 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+using Microsoft.VisualBasic;
 
 namespace ModelHexa
 {
     public class BOTPlayer : Player
     {
-        private static readonly Random rdm = new Random();
+        private static readonly RandomNumberGenerator randomGenerator = RandomNumberGenerator.Create();
+
+        private static int GetSecureRandomInt(int maxValue)
+        {
+            if (maxValue <= 0) throw new ArgumentOutOfRangeException(nameof(maxValue));
+            byte[] intBytes = new byte[4];
+            int value;
+            do
+            {
+                randomGenerator.GetBytes(intBytes);
+                value = BitConverter.ToInt32(intBytes, 0) & int.MaxValue;
+            } while (value >= int.MaxValue - (int.MaxValue % maxValue));
+            return value % maxValue;
+        }
+
         public BOTPlayer(TeamColor teamColor) : base("Robot", teamColor) { }
+
         public override Move ChooseMove(List<Move> l, Cell c, ref bool choixFait)
         {
-
-            Move m = l[rdm.Next(l.Count)];          //prend un mouvement dans la liste d'indice aléatoire de 0 à l'indice max de la liste
-            choixFait = true;                       //On met le choix à true pour que ça ne se répète qu'une fois
+            Move m = l[GetSecureRandomInt(l.Count)];
+            choixFait = true;
             return m;
         }
+
         public override Cell ChoosePawn(Dictionary<Cell, List<Move>> dict)
         {
             List<Cell> listOfPawn = new List<Cell>(dict.Keys);
-
-            return listOfPawn[rdm.Next(listOfPawn.Count)];  //Renvoie un élément aléatoire de la liste des pions
-
-
+            return listOfPawn[GetSecureRandomInt(listOfPawn.Count)];
         }
     }
 }
