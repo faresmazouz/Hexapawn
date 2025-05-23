@@ -154,16 +154,6 @@ namespace ModelHexa
         }
 
 
-        public int Length => length;
-
-
-    }
-public enum ActionDebut
-
-{
-    LancerPartie
-
-}
 
     }
 }
