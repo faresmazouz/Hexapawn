@@ -3,13 +3,7 @@ type: docker
 name: pipelinedefaresthomas
 
 trigger:
-  branch:
-    include:
-      - master
-      - F3_Class
-      - feat*
-    exclude:
-    - doc*
+
   event:
     - push
 

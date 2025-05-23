@@ -12,7 +12,7 @@ namespace ModelHexa
         public BOTPlayer(TeamColor teamColor):base("Robot",teamColor) { }
         public override Move ChooseMove(List<Move> l, Cell c, ref bool choixFait)
         {
-                          //déclare un objet random
+                          
             Move m = l[rdm.Next(l.Count)];          //prend un mouvement dans la liste d'indice aléatoire de 0 à l'indice max de la liste
             choixFait = true;                       //On met le choix à true pour que ça ne se répète qu'une fois
             return m;
