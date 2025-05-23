@@ -6,18 +6,20 @@ using ConsoleApp;
 using ModelHexa;
 
 
+Dictionary<string, int> dictScores = new Dictionary<string, int>();
+while (LaunchGame(ref dictScores)) ;
 
-bool launchGame(ref Dictionary<string, int> dictScores)
+bool LaunchGame(ref Dictionary<string, int> dictScores)
 {
     AfficherActions();
     int choix = DemanderChoixAction();
     switch (choix)
     {
         case 1:
-            while (createPart(ref dictScores)) ;
+            LancerPartie(ref dictScores);
             break;
         case 2:
-            while (checkScores(dictScores)) ;
+            AfficherScores(dictScores);
             break;
     }
     return !DemanderQuitter();
@@ -29,7 +31,7 @@ void AfficherActions()
     int i = 1;
     foreach (ActionDebut act in Enum.GetValues(typeof(ActionDebut)))
     {
-        Console.WriteLine($"{i}. {chois(act)}");
+        Console.WriteLine($"{i}. {GetActionLabel(act)}");
         i++;
     }
 }
@@ -51,28 +53,30 @@ bool DemanderQuitter()
     return Console.ReadLine() == "y";
 }
 
-string chois(ActionDebut act)
+string GetActionLabel(ActionDebut act) => act switch
 {
-    return act switch
-    {
-        ActionDebut.LancerPartie => "Lancer une partie ",
-        ActionDebut.CheckScores => "Voir les scores des joueurs",
-        _ => "Action inconnue"
-    };
-}
+    ActionDebut.LancerPartie => "Lancer une partie ",
+    ActionDebut.CheckScores => "Voir les scores des joueurs",
+    _ => "Action inconnue"
+};
 
-bool checkScores(Dictionary<string, int> dictScores)
+void AfficherScores(Dictionary<string, int> dictScores)
 {
     var classement = CalculerClassement(dictScores);
     Console.WriteLine("Pour voir tous les joueurs, appuyez sur \"entrer\", sinon entrez le nom du joueur");
     string choix = Console.ReadLine();
     if (string.IsNullOrEmpty(choix))
-        affichClassement(dictScores, classement);
-    else if (dictScores.ContainsKey(choix))
-        Console.WriteLine($"{classement[choix]}. {choix} : {dictScores[choix]} victoires");
+        AfficherClassement(dictScores, classement);
+    else
+        AfficherScoreJoueur(dictScores, classement, choix);
+}
+
+void AfficherScoreJoueur(Dictionary<string, int> dictScores, Dictionary<string, int> classement, string nom)
+{
+    if (dictScores.ContainsKey(nom))
+        Console.WriteLine($"{classement[nom]}. {nom} : {dictScores[nom]} victoires");
     else
         Console.WriteLine("Aucun joueur n'a ce nom là");
-    return false;
 }
 
 Dictionary<string, int> CalculerClassement(Dictionary<string, int> dictScores)
@@ -80,21 +84,22 @@ Dictionary<string, int> CalculerClassement(Dictionary<string, int> dictScores)
     var classement = new Dictionary<string, int>();
     int i = 1;
     foreach (var elt in dictScores.OrderByDescending(kvp => kvp.Value))
-    {
         classement[elt.Key] = i++;
-    }
     return classement;
 }
 
-void affichClassement(Dictionary<string, int> dictScores, Dictionary<string, int> dictPos)
+void AfficherClassement(Dictionary<string, int> dictScores, Dictionary<string, int> dictPos)
 {
     foreach (var elt in dictScores.OrderByDescending(kvp => kvp.Value))
-    {
         Console.WriteLine($"{dictPos[elt.Key]}. {elt.Key} : {elt.Value} victoires");
-    }
 }
 
-bool createPart(ref Dictionary<string, int> dictScores)
+void LancerPartie(ref Dictionary<string, int> dictScores)
+{
+    while (CreerEtJouerPartie(ref dictScores)) ;
+}
+
+bool CreerEtJouerPartie(ref Dictionary<string, int> dictScores)
 {
     int nbCases = DemanderNbCases();
     Board b = new Board(nbCases);
@@ -170,9 +175,6 @@ void OnBoardChanged(object? sender, BoardChangedEventArgs e)
 {
     e.BoardChanged.affiche();
 }
-
-Dictionary<string, int> dictScores = new Dictionary<string, int>();
-while (launchGame(ref dictScores)) ;
 
 void OnUserHaveToChoose(object? sender, UserHaveToChooseEventArgs e)
 {
