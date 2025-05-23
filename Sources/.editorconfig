@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS8629: Le type valeur Nullable peut avoir une valeur null.
+dotnet_diagnostic.CS8629.severity = none

@@ -11,19 +11,27 @@ bool launchGame(ref Dictionary<string, int> dictScores)
 {
     string stop;
     int i = 1, choix;
+    bool saisieValide = false;
     Console.WriteLine("Liste des différentes actions:");
     foreach (ActionDebut act in Enum.GetValues(typeof(ActionDebut)))
     {
         Console.WriteLine($"{i}. {chois(act)}");
         i++;
     }
-    Console.Write("Entrez le numéro de l'action à réaliser: ");
-    choix =int.Parse(Console.ReadLine());
-    while (choix <1|| choix >= i)
+    do
     {
-        Console.WriteLine("Erreur, entrez le bon numéro");
-        choix = int.Parse(Console.ReadLine());
+    Console.Write("Entrez le numéro de l'action à réaliser: ");
+    string input = Console.ReadLine();
+
+    if (int.TryParse(input, out choix) && choix >= 1 && choix < i)
+    {
+        saisieValide = true;
     }
+    else
+    {
+        Console.WriteLine("Entrée invalide. Veuillez entrer un nombre entier valide entre 1 et " + (i - 1));
+    }
+    } while (!saisieValide);
     if (choix == 1)
     {
         while (createPart(ref dictScores)) ;
@@ -81,24 +89,29 @@ void affichClassement(Dictionary<string, int> dictScores, Dictionary<string,int>
 
 
 
-
-
 bool createPart(ref Dictionary<string, int> dictScores)
 {
     Player theWinner;
     bool bot;
     Rules r=new Rules();
     int nbCases;
+    bool saisieValide = false;
     string rep;
     string nomJoueur="";
     TeamColor win=TeamColor.Unknown;
-    Console.WriteLine("De combien de cases de longueur voulez-vous que le plateau soit? Entrez un chiffre: ");
-    nbCases=int.Parse(Console.ReadLine());
-    while (nbCases <3)
-    {
-        Console.WriteLine("Erreur, le nombre de cases ne peut pas être inférieur à 3. Entrez un chiffre: ");
-        nbCases = int.Parse(Console.ReadLine());
-    }
+    do
+    { 
+        Console.Write("De combien de cases de longueur voulez-vous que le plateau soit? Entrez un chiffre: ");
+        string input = Console.ReadLine();
+        if (int.TryParse(input, out nbCases) && nbCases >= 3)
+        {
+            saisieValide = true;
+        }
+        else
+        {
+            Console.WriteLine("Entrée invalide. Veuillez entrer un nombre entier valide supérieur à 3");
+        }
+    } while (!saisieValide);
     Board b= new Board(nbCases);
     Console.WriteLine("Voulez vous que le 1er joueur soit un BOT?(y/n'importe quoi d'autre)");
     bot = Console.ReadLine()=="y";
@@ -135,9 +148,9 @@ bool createPart(ref Dictionary<string, int> dictScores)
     p1.UserHaveToChoose += OnUserHaveToChoose;
     p2.UserHaveToChoose += OnUserHaveToChoose;
     Console.WriteLine("Êtes-vous sûr des informations?(y/n\'importe quoi d\'autre)");
-    rep=Console.ReadLine();
+    rep = Console.ReadLine();
     if (rep != "y") return true;
-    b.affiche();
+    b.Affiche();
     p1.PlayTurn(r.allMoves(b,p1.teamColor),b,r,p2, ref win);
     if (win == TeamColor.Player1) theWinner= p1;
     else theWinner=p2;
@@ -149,7 +162,7 @@ bool createPart(ref Dictionary<string, int> dictScores)
 
 void OnBoardChanged(object? sender, BoardChangedEventArgs e)//On définit l'évènement
 {
-    e.BoardChanged.affiche();
+    e.BoardChanged.Affiche();
 }
 
 
@@ -161,7 +174,6 @@ void OnUserHaveToChoose(object? sender, UserHaveToChooseEventArgs e)
 {
     Console.WriteLine(e.Question);
 }
-
 
 void OnUserChoose(object? sender, WrongInputEventArgs e)
 {

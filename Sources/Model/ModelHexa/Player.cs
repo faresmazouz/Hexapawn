@@ -127,8 +127,6 @@ namespace ModelHexa
                 UserHaveToChoose(this, u);
             }
         }
-
-
         public event EventHandler<WrongInputEventArgs> UserChoose;
 
         protected void OnUserChoose(WrongInputEventArgs u)

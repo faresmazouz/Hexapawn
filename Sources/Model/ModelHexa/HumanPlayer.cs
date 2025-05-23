@@ -13,15 +13,15 @@ namespace ModelHexa
         {
             int choix = 0;
             Move mfin = Move.cantMove;
-            Console.WriteLine($"Choisissez quel mouvement jouer avec le pion ({c.X},{c.Y}): ");
-            Console.WriteLine("0. Changer de pion à jouer");
+            OnUserHaveToChoose(new UserHaveToChooseEventArgs($"Choisissez quel mouvement jouer avec le pion ({c.X},{c.Y}): "));
+            OnUserHaveToChoose(new UserHaveToChooseEventArgs("0. Changer de pion à jouer"));
             foreach (Move m in l)
             {
                 choix++;
-                Console.WriteLine($"{choix}. {GetNomMove(m)}");
+                OnUserHaveToChoose(new UserHaveToChooseEventArgs($"{choix}. {GetNomMove(m)}"));
             }
             choix = -2;
-            Console.Write("Entrez le numéro de l'action: ");
+            OnUserHaveToChoose(new UserHaveToChooseEventArgs("Entrez le numéro de l'action: "));
             choix = int.Parse(Console.ReadLine()) - 1;
             while (choix >= l.Count || choix < -1)
             {
@@ -36,21 +36,21 @@ namespace ModelHexa
         {
             int i = 1;
             List<Cell> l = [];   //déclaration de liste temporaire contenant les clés du dictionnaire
-            Console.WriteLine($"{teamColor}, choisissez votre pion à bouger parmis (X,Y): ");
+            OnUserHaveToChoose(new UserHaveToChooseEventArgs($"{teamColor}, choisissez votre pion à bouger parmis (X,Y): "));
             foreach (Cell c in dict.Keys)   //On remplir la liste temporaire et on en profite pour afficher les pions
             {
-                Console.WriteLine($"{i}. Pion de coordonnées ({c.X},{c.Y})");
+                OnUserHaveToChoose(new UserHaveToChooseEventArgs($"{i}. Pion de coordonnées ({c.X},{c.Y})"));
                 l.Add(c);
                 i++;
             }
-            Console.Write($"{teamColor}, entrez maintenant le numéro du pion à jouer: ");
+            OnUserHaveToChoose(new UserHaveToChooseEventArgs($"{teamColor}, entrez maintenant le numéro du pion à jouer: "));
             i = int.Parse(Console.ReadLine()) - 1;
-            Console.Write("\n");
+            OnUserHaveToChoose(new UserHaveToChooseEventArgs("\n"));
             while (i >= l.Count || i < 0)
             {
                 OnUserChoose(new WrongInputEventArgs($"{teamColor}, le numéro entré est incorrect, s'il vous plaît entrez le bon numéro: "));
                 i = int.Parse(Console.ReadLine()) - 1;
-                Console.Write("\n");
+                OnUserHaveToChoose(new UserHaveToChooseEventArgs("\n"));
             }
             return l[i];
 
