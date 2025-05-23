@@ -2,9 +2,9 @@
 
 namespace solution;
 
-public partial class NewPage1 : ContentPage
+public partial class Scores : ContentPage
 {
-	public NewPage1()
+	public Scores()
 	{
 		InitializeComponent();
 	}
