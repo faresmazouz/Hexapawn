@@ -7,161 +7,177 @@ using ModelHexa;
 
 
 
-bool launchGame(ref Dictionary<string, int> dictScores) 
+bool launchGame(ref Dictionary<string, int> dictScores)
 {
-    string stop;
-    int i = 1, choix;
+    AfficherActions();
+    int choix = DemanderChoixAction();
+    switch (choix)
+    {
+        case 1:
+            while (createPart(ref dictScores)) ;
+            break;
+        case 2:
+            while (checkScores(dictScores)) ;
+            break;
+    }
+    return !DemanderQuitter();
+}
+
+void AfficherActions()
+{
     Console.WriteLine("Liste des différentes actions:");
+    int i = 1;
     foreach (ActionDebut act in Enum.GetValues(typeof(ActionDebut)))
     {
         Console.WriteLine($"{i}. {chois(act)}");
         i++;
     }
-    Console.Write("Entrez le numéro de l'action à réaliser: ");
-    choix =int.Parse(Console.ReadLine());
-    while (choix <1|| choix >= i)
-    {
-        Console.WriteLine("Erreur, entrez le bon numéro");
-        choix = int.Parse(Console.ReadLine());
-    }
-    if (choix == 1)
-    {
-        while (createPart(ref dictScores)) ;
-    }
-    else if (choix == 2)
-    {
-        while (checkScores(dictScores)) ;
-    }
-    Console.WriteLine("Quitter l'application oui(y) ou non (n'importe quoi d'autre) ?");
-    stop=Console.ReadLine();
-    if (stop=="y") return false;
-    return true;
-
 }
+
+int DemanderChoixAction()
+{
+    int nbActions = Enum.GetValues(typeof(ActionDebut)).Length;
+    int choix;
+    do
+    {
+        Console.Write("Entrez le numéro de l'action à réaliser: ");
+    } while (!int.TryParse(Console.ReadLine(), out choix) || choix < 1 || choix > nbActions);
+    return choix;
+}
+
+bool DemanderQuitter()
+{
+    Console.WriteLine("Quitter l'application oui(y) ou non (n'importe quoi d'autre) ?");
+    return Console.ReadLine() == "y";
+}
+
 string chois(ActionDebut act)
 {
     return act switch
     {
         ActionDebut.LancerPartie => "Lancer une partie ",
-        ActionDebut.CheckScores=> "Voir les scores des joueurs"
-
+        ActionDebut.CheckScores => "Voir les scores des joueurs",
+        _ => "Action inconnue"
     };
 }
+
 bool checkScores(Dictionary<string, int> dictScores)
 {
-    string choix;
-    Dictionary<string,int> dictPos=new Dictionary<string, int>();
-    var a=dictScores.OrderByDescending(Kvp => Kvp.Value);
-    int i = 1;
-    foreach (var elt in a)
-    {
-        dictPos.Add(elt.Key, i);
-        i++;
-    }
+    var classement = CalculerClassement(dictScores);
     Console.WriteLine("Pour voir tous les joueurs, appuyez sur \"entrer\", sinon entrez le nom du joueur");
-    choix=Console.ReadLine();
-    if (choix == "") affichClassement(dictScores, dictPos);
-    else if (dictScores.ContainsKey(choix)) Console.WriteLine($"{dictPos[choix]}. {choix} : {dictScores[choix]} victoires");
-    else Console.WriteLine("Aucun joueur n'a ce nom là");
+    string choix = Console.ReadLine();
+    if (string.IsNullOrEmpty(choix))
+        affichClassement(dictScores, classement);
+    else if (dictScores.ContainsKey(choix))
+        Console.WriteLine($"{classement[choix]}. {choix} : {dictScores[choix]} victoires");
+    else
+        Console.WriteLine("Aucun joueur n'a ce nom là");
     return false;
 }
 
-
-
-
-
-void affichClassement(Dictionary<string, int> dictScores, Dictionary<string,int> dictPos)
+Dictionary<string, int> CalculerClassement(Dictionary<string, int> dictScores)
 {
-    var a = dictScores.OrderByDescending(Kvp => Kvp.Value);
-    foreach (var elt in a)
+    var classement = new Dictionary<string, int>();
+    int i = 1;
+    foreach (var elt in dictScores.OrderByDescending(kvp => kvp.Value))
+    {
+        classement[elt.Key] = i++;
+    }
+    return classement;
+}
+
+void affichClassement(Dictionary<string, int> dictScores, Dictionary<string, int> dictPos)
+{
+    foreach (var elt in dictScores.OrderByDescending(kvp => kvp.Value))
     {
         Console.WriteLine($"{dictPos[elt.Key]}. {elt.Key} : {elt.Value} victoires");
     }
 }
 
-
-
-
-
 bool createPart(ref Dictionary<string, int> dictScores)
 {
-    Player theWinner;
-    bool bot;
-    Rules r=new Rules();
-    int nbCases;
-    string rep;
-    string nomJoueur="";
-    TeamColor win=TeamColor.Unknown;
-    Console.WriteLine("De combien de cases de longueur voulez-vous que le plateau soit? Entrez un chiffre: ");
-    nbCases=int.Parse(Console.ReadLine());
-    while (nbCases <3)
-    {
-        Console.WriteLine("Erreur, le nombre de cases ne peut pas être inférieur à 3. Entrez un chiffre: ");
-        nbCases = int.Parse(Console.ReadLine());
-    }
-    Board b= new Board(nbCases);
-    Console.WriteLine("Voulez vous que le 1er joueur soit un BOT?(y/n'importe quoi d'autre)");
-    bot = Console.ReadLine()=="y";
-    if (!bot)
-    {
-        Console.WriteLine("Entrez le nom du 1er joueur");
-        nomJoueur=Console.ReadLine();
-        while (nomJoueur == "" || nomJoueur == "Robot")
-        {
-            Console.WriteLine("Erreur, votre nom ne doit pas être vide et vous ne pouvez pas vous appeler Robot, entrez un nom correct");
-            nomJoueur = Console.ReadLine();
-        }
-    }
-    Player p1 = bot ? new BOTPlayer(TeamColor.Player1) : new HumanPlayer(nomJoueur, TeamColor.Player1);
-    dictScores.TryAdd(p1.Name, 0);
-    Console.WriteLine("Voulez vous que le 2ème joueur soit un BOT?(y/n'importe quoi d'autre)");
-    bot = Console.ReadLine() == "y";
-    if (!bot)
-    {
-        Console.WriteLine("Entrez le nom du 2ème joueur");
-        nomJoueur = Console.ReadLine();
-        while (nomJoueur == "" || nomJoueur == "Robot"||nomJoueur==p1.Name)
-        {
-            Console.WriteLine("Erreur, votre nom ne doit pas être vide et vous ne pouvez pas vous appeler Robot et vous ne pouvez pas avoir le même nom que le 1er joueur, entrez un nom correct");
-            nomJoueur = Console.ReadLine();
-        }
-    }
-    Player p2 = bot ? new BOTPlayer(TeamColor.Player2) : new HumanPlayer(nomJoueur, TeamColor.Player2);
-    dictScores.TryAdd(p2.Name, 0);
-    p1.BoardChanged += OnBoardChanged;//On branche l'objet à l'évènement
-    p2.BoardChanged += OnBoardChanged;//pareil
-    p1.UserChoose += OnUserChoose;
-    p2.UserChoose += OnUserChoose;
-    p1.UserHaveToChoose += OnUserHaveToChoose;
-    p2.UserHaveToChoose += OnUserHaveToChoose;
-    Console.WriteLine("Êtes-vous sûr des informations?(y/n\'importe quoi d\'autre)");
-    rep=Console.ReadLine();
-    if (rep != "y") return true;
+    int nbCases = DemanderNbCases();
+    Board b = new Board(nbCases);
+    Player p1 = CreerJoueur(1, dictScores, null);
+    Player p2 = CreerJoueur(2, dictScores, p1.Name);
+    BrancherEvenements(p1);
+    BrancherEvenements(p2);
+    if (!DemanderConfirmation())
+        return true;
     b.affiche();
-    p1.PlayTurn(r.allMoves(b,p1.teamColor),b,r,p2, ref win);
-    if (win == TeamColor.Player1) theWinner= p1;
-    else theWinner=p2;
+    TeamColor win = TeamColor.Unknown;
+    Rules r = new Rules();
+    p1.PlayTurn(r.allMoves(b, p1.teamColor), b, r, p2, ref win);
+    Player theWinner = (win == TeamColor.Player1) ? p1 : p2;
     theWinner.victoires += 1;
     dictScores[theWinner.Name] += 1;
     Console.WriteLine($"Félicitation, {theWinner.Name} ({dictScores[theWinner.Name]} victoires) a gagné!");
     return false;
 }
 
-void OnBoardChanged(object? sender, BoardChangedEventArgs e)//On définit l'évènement
+int DemanderNbCases()
+{
+    int nbCases;
+    do
+    {
+        Console.WriteLine("De combien de cases de longueur voulez-vous que le plateau soit? Entrez un chiffre: ");
+    } while (!int.TryParse(Console.ReadLine(), out nbCases) || nbCases < 3);
+    return nbCases;
+}
+
+Player CreerJoueur(int numero, Dictionary<string, int> dictScores, string? nomJoueurExclu)
+{
+    bool bot = DemanderSiBot(numero);
+    string nomJoueur = bot ? "Robot" : DemanderNomJoueur(numero, nomJoueurExclu);
+    Player joueur = bot
+        ? new BOTPlayer(numero == 1 ? TeamColor.Player1 : TeamColor.Player2)
+        : new HumanPlayer(nomJoueur, numero == 1 ? TeamColor.Player1 : TeamColor.Player2);
+    dictScores.TryAdd(joueur.Name, 0);
+    return joueur;
+}
+
+bool DemanderSiBot(int numero)
+{
+    Console.WriteLine($"Voulez vous que le {numero}er joueur soit un BOT?(y/n'importe quoi d'autre)");
+    return Console.ReadLine() == "y";
+}
+
+string DemanderNomJoueur(int numero, string? nomJoueurExclu)
+{
+    string nomJoueur;
+    do
+    {
+        Console.WriteLine($"Entrez le nom du {numero}ème joueur");
+        nomJoueur = Console.ReadLine();
+    } while (string.IsNullOrEmpty(nomJoueur) || nomJoueur == "Robot" || (nomJoueurExclu != null && nomJoueur == nomJoueurExclu));
+    return nomJoueur;
+}
+
+bool DemanderConfirmation()
+{
+    Console.WriteLine("Êtes-vous sûr des informations?(y/n'importe quoi d'autre)");
+    return Console.ReadLine() == "y";
+}
+
+void BrancherEvenements(Player p)
+{
+    p.BoardChanged += OnBoardChanged;
+    p.UserChoose += OnUserChoose;
+    p.UserHaveToChoose += OnUserHaveToChoose;
+}
+
+void OnBoardChanged(object? sender, BoardChangedEventArgs e)
 {
     e.BoardChanged.affiche();
 }
 
-
 Dictionary<string, int> dictScores = new Dictionary<string, int>();
 while (launchGame(ref dictScores)) ;
-
 
 void OnUserHaveToChoose(object? sender, UserHaveToChooseEventArgs e)
 {
     Console.WriteLine(e.Question);
 }
-
 
 void OnUserChoose(object? sender, WrongInputEventArgs e)
 {
