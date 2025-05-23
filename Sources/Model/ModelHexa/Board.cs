@@ -7,31 +7,31 @@ namespace ModelHexa
 {
     public class Board
     {
-        private Cell[,] boardOfCell { get; }
-        readonly int length;
+        public Cell[,] BoardOfCell { get; }
+        public int Length { get; }
         /// <summary>
         /// Plateau de jeu contenant un tableau à deux dimensions de Cell. C'est sur lui que va se dérouler la partie
         /// </summary>
         /// <param name="length">Le plateau va toujours être carré et cette propriété va donner la longueur des cotés. Ce paramètre va aider aux calculs</param>
         public Board(int length)
         {
-            this.length = length;
-            this.boardOfCell = new Cell[length, length];
+            this.Length = length;
+            this.BoardOfCell = new Cell[length, length];
             for (int j = 0; j < length; j++)
             {
                 for (int i = 0; i < length; i++)
                 {
                     if (i == 0)
                     {
-                        this.boardOfCell[i, j] = new Cell(i, j, new Pawn(TeamColor.Player1));
+                        this.BoardOfCell[i, j] = new Cell(i, j, new Pawn(TeamColor.Player1));
                     }
                     else if (i == length - 1)
                     {
-                        this.boardOfCell[i, j] = new Cell(i, j, new Pawn(TeamColor.Player2));
+                        this.BoardOfCell[i, j] = new Cell(i, j, new Pawn(TeamColor.Player2));
                     }
                     else
                     {
-                        this.boardOfCell[i, j] = new Cell(i, j);
+                        this.BoardOfCell[i, j] = new Cell(i, j);
                     }
                 }
             }
@@ -40,8 +40,8 @@ namespace ModelHexa
         {
             get
             {
-                if (x >= 0 && x < length && y >= 0 && y < length)
-                    return boardOfCell[x, y];
+                if (x >= 0 && x < Length && y >= 0 && y < Length)
+                    return BoardOfCell[x, y];
                 return null;
             }
         }
@@ -49,11 +49,11 @@ namespace ModelHexa
         public bool allPawns(ref Cell[] tab1, ref Cell[] tab2)
         {
             Cell? tmpCell;
-            List<Cell> t1=new List<Cell>();
+            List<Cell> t1 = new List<Cell>();
             List<Cell> t2 = new List<Cell>();
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < Length; i++)
             {
-                for (int j = 0; j < length; j++)
+                for (int j = 0; j < Length; j++)
                 {
                     tmpCell = this[i, j];
                     if (tmpCell != null && tmpCell.Pawn.HasValue)
@@ -64,15 +64,15 @@ namespace ModelHexa
                     }
                 }
             }
-            tab1=t1.ToArray();
-            tab2=t2.ToArray();
+            tab1 = t1.ToArray();
+            tab2 = t2.ToArray();
             return true;
         }
 
 
         public bool MovePawn(Rules r, Player p, Cell c, Move m, ref bool win)
         {
-            if (m==Move.cantMove||!r.isMoveValid(this, m, p.teamColor, c)) return false;
+            if (m == Move.cantMove || !r.isMoveValid(this, m, p.teamColor, c)) return false;
             int X, Y;
             Pawn newp;
             if (p.teamColor == TeamColor.Player1)
@@ -80,7 +80,7 @@ namespace ModelHexa
                 if (m == Move.eatLeft)
                 {
                     X = c.X + 1;
-                    Y= c.Y - 1;
+                    Y = c.Y - 1;
                 }
                 else if (m == Move.eatRight)
                 {
@@ -97,7 +97,7 @@ namespace ModelHexa
                     X = c.X + 1;
                     Y = c.Y;
                 }
-                if (X == length-1) win=true;
+                if (X == Length - 1) win = true;
             }
             else
             {
@@ -113,7 +113,7 @@ namespace ModelHexa
                 }
                 else if (m == Move.moveBy2)
                 {
-                    X = c.X -2;
+                    X = c.X - 2;
                     Y = c.Y;
                 }
                 else
@@ -121,25 +121,24 @@ namespace ModelHexa
                     X = c.X - 1;
                     Y = c.Y;
                 }
-                if (X==0) win = true;
+                if (X == 0) win = true;
             }
             newp = new Pawn(p.teamColor);
-            boardOfCell[X, Y].Pawn = newp;
-            boardOfCell[c.X, c.Y].Pawn = null;
+            BoardOfCell[X, Y].Pawn = newp;
+            BoardOfCell[c.X, c.Y].Pawn = null;
             return true;
         }
-
-        public void affiche()
+        public void Affiche()
         {
             Console.WriteLine(" X ");
-            for (int i = length-1; i >= 0; i--)
+            for (int i = Length - 1; i >= 0; i--)
             {
                 Console.Write($" {i} ");
-                for (int j = 0; j <length; j++)
+                for (int j = 0; j < Length; j++)
                 {
-                    if (boardOfCell[i, j].Pawn.HasValue)
+                    if (BoardOfCell[i, j].Pawn.HasValue)
                     {
-                        if (boardOfCell[i, j].Pawn.Value.Color == TeamColor.Player1) Console.Write(" W ");
+                        if (BoardOfCell[i, j].Pawn.Value.Color == TeamColor.Player1) Console.Write(" W ");
                         else Console.Write(" B ");
                     }
                     else Console.Write(" _ ");
@@ -147,22 +146,17 @@ namespace ModelHexa
                 Console.Write("\n");
             }
             Console.Write("   ");
-            for (int i=0; i < length; i++)
+            for (int i = 0; i < Length; i++)
             {
                 Console.Write($" {i} ");
             }
             Console.Write(" Y \n");
         }
+public enum ActionDebut
+{
+    LancerPartie
 
-
-        public int Length => length;
-
-
-    }
-    public enum ActionDebut
-    {
-        LancerPartie
+}
 
     }
-
 }
