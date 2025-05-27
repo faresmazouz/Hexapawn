@@ -1,8 +1,11 @@
+
 namespace ModelHexa
 {
     public struct Pawn
     {
         public TeamColor Color { get; private init; }
+       
+
         public Pawn()
         {
             Color = TeamColor.Unknown;
