@@ -131,7 +131,7 @@ namespace TestProject2
         // --- Player ---
         [Theory]
         [InlineData("Farès", TeamColor.Player1)]
-        [InlineData("Alice", TeamColor.Player2)]
+        [InlineData("Thomas", TeamColor.Player2)]
         public void Player_Victoires_Increment(string name, TeamColor color)
         {
             var player = new HumanPlayer(name, color);
