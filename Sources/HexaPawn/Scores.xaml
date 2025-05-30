@@ -2,8 +2,8 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:model="clr-namespace:Hexapawn;assembly=Hexapawn"
-    x:Class="solution.Scores"
+    xmlns:model="clr-namespace:ModelHexa;assembly=ModelHexa"
+    x:Class="Hexapawn.Scores"
     BackgroundColor="#F0F0F0"
     Title="Scores">
 
@@ -17,11 +17,11 @@
                 <VerticalStackLayout Spacing="20">
 
                     <!-- Total games played against bot -->
-                    <Label Text="Nombre de parties totales jouées contre un BOT : {Binding Mgr.Score.PartiesTotales}"
+                    <Label Text="Nombre de parties totales jouées contre un BOT : {Binding PartiesTotales}"
                            TextColor="White" FontSize="50" FontFamily="OpenSansBold"/>
 
                     <!-- Games played by the bot -->
-                    <Label Text="Nombre de parties jouées par le BOT : {Binding Mgr.Score.PartiesVsBot}"
+                    <Label Text="Nombre de parties jouées par le BOT : {Binding PartiesVsBot}"
                            TextColor="White" FontSize="50" FontFamily="OpenSansBold"/>
 
                     <!-- Bot level -->
@@ -30,18 +30,17 @@
 
                     <!-- Victories and defeats -->
                     <Grid ColumnDefinitions="*,*">
-                        <Label Text="Victoires : {Binding Mgr.Score.Victoires}"
+                        <Label Text="Victoires : {Binding Victoires.Value}"
                                TextColor="White" FontSize="60" FontFamily="OpenSansBold"
                                Grid.Column="0"/>
-                        <Label Text="Défaites : {Binding Mgr.Score.Defaites}"
+                        <Label Text="Défaites : {Binding Defaites.Value}"
                                TextColor="White" FontSize="60" FontFamily="OpenSansBold"
                                HorizontalTextAlignment="End"
                                Grid.Column="1"/>
                     </Grid>
 
                     <!-- Victories/defeats against current bot -->
-                    <Label Text="Victoires contre le bot actuel : {Binding Mgr.Score.VictoiresVsBot}  
-                                    Défaites contre le bot actuel : {Binding Mgr.Score.DefaitesVsBot}"
+                    <Label Text="Victoires contre le bot actuel : {Binding VictoiresVsBot}  |   Défaites contre le bot actuel : {Binding DefaitesVsBot}"
                            TextColor="White" FontSize="16" FontFamily="OpenSansBold"/>
 
                     <!-- Reset bot level button -->

@@ -8,8 +8,7 @@ public partial class Scores : ContentPage
 
     public Scores()
     {
-        //InitializeComponent();
+        InitializeComponent(); 
         BindingContext = this;
     }
 }
-    
