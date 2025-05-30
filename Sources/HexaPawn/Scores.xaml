@@ -2,12 +2,13 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:Hexapawn;assembly=Hexapawn"
     x:Class="solution.Scores"
     BackgroundColor="#F0F0F0"
     Title="Scores">
 
     <ScrollView>
-        <Grid Padding="20">
+        <Grid Padding="20" BindingContext="{Binding Mgr}">
             <Border StrokeThickness="0"
                     BackgroundColor="#5A4745"
                     StrokeShape="RoundRectangle"
@@ -15,30 +16,35 @@
 
                 <VerticalStackLayout Spacing="20">
 
-
-                    <Label Text="Nombre de parties totales jouées contre un BOT : 4484"
-                           TextColor="White" FontSize="50" FontFamily="OpenSansBold"/>
-                    <Label Text="Nombre de parties jouées par le BOT : 12"
-                           TextColor="White" FontSize="50" FontFamily="OpenSansBold"/>
-                    <Label Text="Niveau du bot : Amateur"
+                    <!-- Total games played against bot -->
+                    <Label Text="Nombre de parties totales jouées contre un BOT : {Binding Mgr.Score.PartiesTotales}"
                            TextColor="White" FontSize="50" FontFamily="OpenSansBold"/>
 
+                    <!-- Games played by the bot -->
+                    <Label Text="Nombre de parties jouées par le BOT : {Binding Mgr.Score.PartiesVsBot}"
+                           TextColor="White" FontSize="50" FontFamily="OpenSansBold"/>
 
+                    <!-- Bot level -->
+                    <Label Text="Niveau du bot : Amateur" 
+                           TextColor="White" FontSize="50" FontFamily="OpenSansBold"/>  <!--a modifier plus tard -->                    
+
+                    <!-- Victories and defeats -->
                     <Grid ColumnDefinitions="*,*">
-                        <Label Text="Victoires : 2242"
+                        <Label Text="Victoires : {Binding Mgr.Score.Victoires}"
                                TextColor="White" FontSize="60" FontFamily="OpenSansBold"
                                Grid.Column="0"/>
-                        <Label Text="Défaites : 2242"
+                        <Label Text="Défaites : {Binding Mgr.Score.Defaites}"
                                TextColor="White" FontSize="60" FontFamily="OpenSansBold"
                                HorizontalTextAlignment="End"
                                Grid.Column="1"/>
                     </Grid>
 
-
-                    <Label Text="Victoires contre le bot actuel : 5    Défaites contre le bot actuel : 7"
+                    <!-- Victories/defeats against current bot -->
+                    <Label Text="Victoires contre le bot actuel : {Binding Mgr.Score.VictoiresVsBot}  
+                                    Défaites contre le bot actuel : {Binding Mgr.Score.DefaitesVsBot}"
                            TextColor="White" FontSize="16" FontFamily="OpenSansBold"/>
 
-
+                    <!-- Reset bot level button -->
                     <Button Text="Réinitialiser le niveau du bot"
                             BackgroundColor="#F9EAEA"
                             TextColor="Black"
@@ -48,16 +54,17 @@
                             HeightRequest="50"
                             Padding="10"
                             HorizontalOptions="Center"
-                            WidthRequest="300">
-                    </Button>
+                            WidthRequest="300"
+                            />
 
-
+                    <!-- Back button -->
                     <ImageButton Source="back_icon.png"
                                  BackgroundColor="White"
                                  HeightRequest="44"
                                  WidthRequest="44"
                                  CornerRadius="12"
-                                 HorizontalOptions="Start"/>
+                                 HorizontalOptions="Start"
+                                 />
                     
                 </VerticalStackLayout>
             </Border>

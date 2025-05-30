@@ -1,19 +1,23 @@
 ﻿using System;
-using ModelHexa;
-namespace Model
+namespace ModelHexa;
+
+public class Manager
 {
-    public class Manager
-    {
-        public Score Victoires { get; private set; }
-            = new Score(987654321);
+    public Score Victoires { get; private set; }
+        = new Score();
 
-        public Score Defaites { get; private set; }
-            = new Score(9656565);
+    public Score Defaites { get; private set; }
+        = new Score();
 
-        public Score VictoiresVsBot { get; private set; }
-            = new Score(566546);
+    public Score VictoiresVsBot { get; private set; }
+        = new Score();
 
-        public Score DefaitesVsBot { get; private set; }
-            = new Score(54646496);
-    }
+    public Score DefaitesVsBot { get; private set; }
+        = new Score();
+
+    public Score PartiesTotales { get; private set; }
+        = new Score();
+
+    public Score PartiesVsBot { get; private set; }
+        = new Score();
 }
