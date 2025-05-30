@@ -5,7 +5,15 @@ using System.Runtime.InteropServices.ObjectiveC;
 
 namespace ModelHexa
 {
-    public abstract class Player
+	public enum Move
+	{
+		cantMove,
+		eatRight,
+		eatLeft,
+		moveBy2,
+		moveBy1
+	}
+	public abstract class Player
     {
         readonly string name;
         public readonly TeamColor teamColor;
@@ -23,6 +31,7 @@ namespace ModelHexa
         public virtual void PlayTurn(Dictionary<Cell, List<Move>> mymoves, Board b, Rules r, Player nextp, ref TeamColor winner)
         {
             //b.affiche();
+            OnTurnStarted();
             Dictionary<Cell, List<Move>> nextdict;
             bool choixfait = false, win = false;
             Cell cmove=new Cell(0,0);
@@ -33,12 +42,18 @@ namespace ModelHexa
                 move = ChooseMove(mymoves[cmove], cmove, ref choixfait);
             }
             b.MovePawn(r, this, cmove, move, ref win);
+            if (move == Move.eatLeft || move == Move.eatRight)
+            {
+                Cell destination = GetDestination(cmove, move, teamColor);
+                OnPawnCaptured(new PawnCapturedEventArgs(this, cmove, destination));
+            }
             OnBoardChanged(new BoardChangedEventArgs(b, this, move, cmove));//On invoque l'évènement auquel on passe l'objet de l'évènement
             nextdict=r.allMoves(b, nextp.teamColor);
             if (nextdict.Count == 0 || win == true)
             {
                 winner=teamColor;
-                return;
+				OnGameEnded(new GameEndedEventArgs(teamColor, b)); // Déclenche l’événement
+				return;
             }
             nextp.PlayTurn(nextdict,b,r,this,ref winner);
 
@@ -95,8 +110,12 @@ namespace ModelHexa
 
         }
 
-
-
+        protected Cell GetDestination(Cell from, Move move, TeamColor team)
+        {
+            int dx = (team == TeamColor.Player1) ? 1 : -1;
+            int dy = move == Move.eatLeft ? -1 : 1;
+            return new Cell(from.X + dx, from.Y + dy);
+        }
 
         public static string GetNomMove(Move m)
         {
@@ -136,16 +155,31 @@ namespace ModelHexa
                 UserChoose(this, u);
             }
         }
+    
+    public event EventHandler<GameEndedEventArgs> GameEnded;
+
+	protected void OnGameEnded(GameEndedEventArgs e)
+		{
+			GameEnded?.Invoke(this, e);
+		}
 
 
+    public event EventHandler<PawnCapturedEventArgs>? PawnCaptured;
 
-    }
-    public enum Move
-    {
-        cantMove,
-        eatRight,
-        eatLeft,
-        moveBy2,
-        moveBy1
+
+    protected void OnPawnCaptured(PawnCapturedEventArgs e)
+        {
+            PawnCaptured?.Invoke(this, e);
+        }
+
+    public event EventHandler<TurnStartedEventArgs>? TurnStarted;
+
+
+    protected void OnTurnStarted()
+        {
+            TurnStarted?.Invoke(this, new TurnStartedEventArgs(this, teamColor));
+        }
+
+
     }
 }
