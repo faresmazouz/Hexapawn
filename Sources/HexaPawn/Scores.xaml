@@ -57,7 +57,8 @@
                                  HeightRequest="44"
                                  WidthRequest="44"
                                  CornerRadius="12"
-                                 HorizontalOptions="Start"/>
+                                 HorizontalOptions="Start"
+                                 Clicked="ImageButton_Clicked"/>
                     
                 </VerticalStackLayout>
             </Border>

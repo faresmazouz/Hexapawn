@@ -1,4 +1,4 @@
-namespace ModelHexa
+﻿namespace ModelHexa
 {
     public class Cell
     {
@@ -17,7 +17,14 @@ namespace ModelHexa
         {
             return Pawn == null;
         }
+        public override string ToString()
+        {
+            if (Pawn == null) return "";
+            if (Pawn.Value.Color == TeamColor.Player1) return "♙";
+            return "♟";
+        }
     }
+    
 }
 
 

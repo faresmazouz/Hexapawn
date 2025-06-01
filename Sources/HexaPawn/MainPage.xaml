@@ -13,15 +13,35 @@
 
         
         <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
-            <Button Text="Apparence" Style="{StaticResource MenuButtonStyle}" />
-            <Label Text="mode de jeu" TextColor="White" FontSize="16" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-            <Button Text="Classique" Style="{StaticResource MenuButtonStyle}" />
-            <Button Text="4x4" Style="{StaticResource MenuButtonStyle}" />
-            <Button Text="5x5" Style="{StaticResource MenuButtonStyle}" />
+            <Button Text="Apparence" Style="{StaticResource MenuButtonStyle}" Clicked="OnClickedApparence"/>
+            <Label x:Name="texteMode" Text="mode de jeu" TextColor="White" FontSize="16" FontAttributes="Bold" HorizontalTextAlignment="Center" IsVisible="True"/>
+            <Button x:Name="cl"  Text="Classique" Style="{StaticResource MenuButtonStyle}"  Clicked="OnClickedClassic" IsVisible="True"/>
+            <Button x:Name="qxq"  Text="4x4" Style="{StaticResource MenuButtonStyle}"  Clicked="OnClicked4x4" IsVisible="True"/>
+            <Button x:Name="cxc"  Text="5x5" Style="{StaticResource MenuButtonStyle}" Clicked="OnClicked5x5" IsVisible="True"/>
         </VerticalStackLayout>
-
-        
-        <Grid Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
+        <CollectionView ItemsSource="{Binding Plateau.FlatBoard}"
+                BackgroundColor="Azure"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                        Grid.Column="1">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical"
+                            Span="{Binding Plateau.Length}"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border WidthRequest="50" HeightRequest="50"
+                    BackgroundColor="#3E3232"
+                    Margin="4">
+                        <Label Text="{Binding}"
+                        TextColor="Black"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center"/>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <!--<Grid Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
@@ -51,18 +71,23 @@
             <BoxView Grid.RowSpan="3" Grid.ColumnSpan="3"
                      Color="Black" Opacity="0.15"
                      Margin="1"/>
-        </Grid>
+        </Grid>-->
 
         
         <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
-            <Button Text="Scores"  
+            <Button x:Name="GiveUp"
+        Text="Abandonner"  
+        Style="{StaticResource MenuButtonStyle}" 
+        Clicked="OnClickedGiveUp"
+        WidthRequest="200"
+        IsVisible="False"/>
+            <Button x:Name="Scores"
+                    Text="Scores"  
                     Style="{StaticResource MenuButtonStyle}" 
-                    WidthRequest="200" />
-            
-            <Button Text="Replay" 
-                    Style="{StaticResource MenuButtonStyle}" 
-                    WidthRequest="200"/>
-                    
+                    WidthRequest="200"
+                    Clicked="OnClickedScores"
+                    IsVisible="True"/>
+
         </VerticalStackLayout>
 
        
@@ -78,13 +103,25 @@
 
        
         <HorizontalStackLayout Grid.Column="1" VerticalOptions="End" HorizontalOptions="Center" Spacing="20" Margin="0,0,0,20">
-            <Button Text="2 JOUEURS" 
+            <Button x:Name="uvu"
+                    Clicked="OnClicked1v1"
+                    Text="2 JOUEURS" 
                     Style="{StaticResource MenuButtonStyle}" 
-                    WidthRequest="200"/>
+                    WidthRequest="150"
+                    IsVisible="True"/>
             
-            <Button Text="VS BOT" 
+            <Button x:Name="Bvu"
+                    Text="Joueur VS BOT" 
+                    Clicked="OnClickedBv1"
                     Style="{StaticResource MenuButtonStyle}" 
-                    WidthRequest="200"/>
+                    WidthRequest="150"
+                    IsVisible="True"/>
+            <Button x:Name="BvB"
+                Text="BOT VS BOT" 
+                    Clicked="OnClickedBvB"
+                Style="{StaticResource MenuButtonStyle}" 
+                WidthRequest="150"
+                IsVisible="True"/>
             
         </HorizontalStackLayout>
     </Grid>
