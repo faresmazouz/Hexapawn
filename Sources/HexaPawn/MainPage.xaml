@@ -76,7 +76,7 @@
         
         <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
             <Button x:Name="GiveUp"
-        Text="Abandonner"  
+        Text="Abandonner (à binder pour mettre revenir au menu principal à la fin de partie)"  
         Style="{StaticResource MenuButtonStyle}" 
         Clicked="OnClickedGiveUp"
         WidthRequest="200"
@@ -103,6 +103,7 @@
 
        
         <HorizontalStackLayout Grid.Column="1" VerticalOptions="End" HorizontalOptions="Center" Spacing="20" Margin="0,0,0,20">
+            <Label x:Name="messageCourant" Text="À BINDER" TextColor="White" FontSize="16" FontAttributes="Bold" HorizontalTextAlignment="Center" IsVisible="False"/>
             <Button x:Name="uvu"
                     Clicked="OnClicked1v1"
                     Text="2 JOUEURS" 

@@ -36,6 +36,7 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
         Bvu.IsVisible = !Bvu.IsVisible;
         BvB.IsVisible = !BvB.IsVisible;
         GiveUp.IsVisible = !GiveUp.IsVisible;
+        messageCourant.IsVisible = !messageCourant.IsVisible;
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
