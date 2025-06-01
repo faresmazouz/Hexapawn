@@ -1,0 +1,178 @@
+@startuml
+
+
+class Score {
+      +Value : int
+        +Score()
+          +Score(value : int)
+          }
+
+          class ScoreData {
+              +Victoires : int
+                +Defaites : int
+                  +VictoiresVsBot : int
+                    +DefaitesVsBot : int
+                      +PartiesTotales : int
+                        +PartiesVsBot : int
+                        }
+
+                        class Manager {
+                              -FichierScores : string = "scores.json"
+                                +Victoires : Score
+                                  +Defaites : Score
+                                    +VictoiresVsBot : Score
+                                      +DefaitesVsBot : Score
+                                        +PartiesTotales : Score
+                                          +PartiesVsBot : Score
+                                            +Sauvegarder() : void
+                                              +Charger() : void
+                                              }
+
+
+                                              class Board {
+                                                  -boardOfCell : ObservableCollection<ObservableCollection<Cell>>
+                                                    -length : int
+                                                      +Board(length : int)
+                                                        +AllPawns() : bool
+                                                          +MovePawn() : bool
+                                                            +affiche() : void
+                                                            }
+
+                                                            class Cell {
+                                                                  -X : int
+                                                                    -Y : int
+                                                                      -Pawn : Pawn
+                                                                        +Cell(x : int, y : int, p : Pawn)
+                                                                          +Empty() : bool
+                                                                          }
+
+                                                                          class Pawn {
+                                                                              -Color : TeamColor
+                                                                                +Pawn()
+                                                                                  +Pawn(t : TeamColor)
+                                                                                  }
+
+                                                                                  enum TeamColor {
+                                                                                      Unknown
+                                                                                        Player1
+                                                                                          Player2
+                                                                                          }
+
+
+                                                                                          interface IPlayer {
+                                                                                              +name : string
+                                                                                                +teamColor : TeamColor
+                                                                                                  +victories : int
+                                                                                                    +PlayTurn() : void
+                                                                                                      +ChooseMove() : Move
+                                                                                                        +ChoosePawn() : Cell
+                                                                                                          +GetNextMove() : string
+                                                                                                            +OnBoardChanged(b : BoardChangedEventArgs) : void
+                                                                                                            }
+
+                                                                                                            class HumanPlayer {
+                                                                                                                  +HumanPlayer(name : string, teamColor : TeamColor)
+                                                                                                                    +PlayTurn() : void
+                                                                                                                      +ChooseMove() : Move
+                                                                                                                        +ChoosePawn() : Cell
+                                                                                                                        }
+
+                                                                                                                        class BOTPlayer {
+                                                                                                                              +BOTPlayer(teamColor : TeamColor, name : string)
+                                                                                                                                +ChooseMove() : Move
+                                                                                                                                  +ChoosePawn() : Cell
+                                                                                                                                  }
+
+                                                                                                                                  class Rules {
+                                                                                                                                      +isMoveValid(...) : bool
+                                                                                                                                        +allMoves(...) : Dictionary<Cell, List<Move>>
+                                                                                                                                        }
+
+                                                                                                                                        enum Move {
+                                                                                                                                              cantMove
+                                                                                                                                                eatLeft
+                                                                                                                                                  eatRight
+                                                                                                                                                    moveBy1
+                                                                                                                                                    }
+
+
+                                                                                                                                                    class BoardChangedEventArgs {
+                                                                                                                                                          +BoardChanged : Board
+                                                                                                                                                            +Player : IPlayer
+                                                                                                                                                              +MoveUsed : Move
+                                                                                                                                                                +CellChanged : Cell
+                                                                                                                                                                  +BoardChangedEventArgs(b : Board, p : IPlayer, m : Move, c : Cell)
+                                                                                                                                                                  }
+
+
+                                                                                                                                                                  class WrongInputEventArgs {
+                                                                                                                                                                      +ErrorMessage : string
+                                                                                                                                                                        +ForbiddenWords : List<string>
+                                                                                                                                                                          +WrongInputEventArgs(errorMessage : string)
+                                                                                                                                                                          }
+
+                                                                                                                                                                          class UserHaveToChooseEventArgs {
+                                                                                                                                                                              +Question : string
+                                                                                                                                                                                +UserHaveToChooseEventArgs(question : string)
+                                                                                                                                                                                }
+
+                                                                                                                                                                                class TurnStartedEventArgs {
+                                                                                                                                                                                      +Player : Player
+                                                                                                                                                                                        +Team : TeamColor
+                                                                                                                                                                                          +TurnStartedEventArgs(player : Player, team : TeamColor)
+                                                                                                                                                                                          }
+
+                                                                                                                                                                                          class PawnCapturedEventArgs {
+                                                                                                                                                                                              +Attacker : Player
+                                                                                                                                                                                                +From : Cell
+                                                                                                                                                                                                  +To : Cell
+                                                                                                                                                                                                    +PawnCapturedEventArgs(attacker : Player, from : Cell, to : Cell)
+                                                                                                                                                                                                    }
+
+                                                                                                                                                                                                    class GameEndedEventArgs {
+                                                                                                                                                                                                          +Winner : TeamColor
+                                                                                                                                                                                                            +FinalBoard : Board
+                                                                                                                                                                                                              +GameEndedEventArgs(winner : TeamColor, finalBoard : Board 
+                                                                                                                                                                                                                }
+                                                                                                                                                                                                                
+                                                                                                                                                                                                                Manager --> Score
+                                                                                                                                                                                                                Manager --> ScoreData
+                                                                                                                                                                                                                ScoreData --> Score
+                                                                                                                                                                                                                Board --> Cell
+                                                                                                                                                                                                                Cell --> Pawn
+                                                                                                                                                                                                                Pawn --> TeamColor
+                                                                                                                                                                                                                HumanPlayer ..|> IPlayer
+                                                                                                                                                                                                                BOTPlayer ..|> IPlayer
+                                                                                                                                                                                                                Rules --> Cell
+                                                                                                                                                                                                                Rules --> Move
+                                                                                                                                                                                                                BoardChangedEventArgs --> Board
+                                                                                                                                                                                                                BoardChangedEventArgs --> IPlayer
+                                                                                                                                                                                                                BoardChangedEventArgs --> Move
+                                                                                                                                                                                                                BoardChangedEventArgs --> Cell
+                                                                                                                                                                                                                
+                                                                                                                                                                                                                TurnStartedEventArgs --> IPlayer
+                                                                                                                                                                                                                TurnStartedEventArgs --> TeamColor
+                                                                                                                                                                                                                PawnCapturedEventArgs --> IPlayer
+                                                                                                                                                                                                                PawnCapturedEventArgs --> Cell
+                                                                                                                                                                                                                GameEndedEventArgs --> Board
+                                                                                                                                                                                                                GameEndedEventArgs --> TeamColor
+                                                                                                                                                                                                                
+                                                                                                                                                                                                                @enduml)
+                                                                                                                                                                                                    }
+                                                                                                                                                                                          }
+                                                                                                                                                                                }
+                                                                                                                                                                          }
+                                                                                                                                                                  }
+                                                                                                                                                    }
+                                                                                                                                        }
+                                                                                                                                  }
+                                                                                                                        }
+                                                                                                            }
+                                                                                          }
+                                                                                  }
+                                                                          }
+                                                            }
+                                              }
+                        }
+          }
+}
