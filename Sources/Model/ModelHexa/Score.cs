@@ -4,7 +4,7 @@ namespace ModelHexa
 {
     public class Score
     {
-        public int Value { get; set; }
+        public int Value { get; private set; }
 
 
         public Score() { }
