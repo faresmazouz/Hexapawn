@@ -1,4 +1,4 @@
-namespace solution;
+namespace Hexapawn;
 
 public partial class MainPage : ContentPage
 {

@@ -30,10 +30,10 @@
 
                     <!-- Victories and defeats -->
                     <Grid ColumnDefinitions="*,*">
-                        <Label Text="Victoires : {Binding Victoires.Value}"
+                        <Label Text="Victoires : {Binding Victoires}"
                                TextColor="White" FontSize="60" FontFamily="OpenSansBold"
                                Grid.Column="0"/>
-                        <Label Text="Défaites : {Binding Defaites.Value}"
+                        <Label Text="Défaites : {Binding Defaites}"
                                TextColor="White" FontSize="60" FontFamily="OpenSansBold"
                                HorizontalTextAlignment="End"
                                Grid.Column="1"/>
