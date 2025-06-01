@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +8,8 @@ namespace ModelHexa
 {
     public class Board
     {
-        public Cell[,] BoardOfCell { get; }
+        public ObservableCollection<ObservableCollection<Cell>> BoardOfCell { get; }
+        public ObservableCollection<Cell> FlatBoard {  get; }
         public int Length { get; }
         /// <summary>
         /// Plateau de jeu contenant un tableau à deux dimensions de Cell. C'est sur lui que va se dérouler la partie
@@ -15,25 +17,34 @@ namespace ModelHexa
         /// <param name="length">Le plateau va toujours être carré et cette propriété va donner la longueur des cotés. Ce paramètre va aider aux calculs</param>
         public Board(int length)
         {
+            FlatBoard=new ObservableCollection<Cell>();
             this.Length = length;
-            this.BoardOfCell = new Cell[length, length];
-            for (int j = 0; j < length; j++)
+            this.BoardOfCell = new ObservableCollection<ObservableCollection<Cell>>();
+            this.BoardOfCell = new ObservableCollection<ObservableCollection<Cell>>();
+
+            for (int i = 0; i < length; i++)
             {
-                for (int i = 0; i < length; i++)
+                ObservableCollection<Cell> row = new ObservableCollection<Cell>();
+                for (int j = 0; j < length; j++)
                 {
                     if (i == 0)
                     {
-                        this.BoardOfCell[i, j] = new Cell(i, j, new Pawn(TeamColor.Player1));
+                        row.Add(new Cell(i, j, new Pawn(TeamColor.Player1)));
                     }
                     else if (i == length - 1)
                     {
-                        this.BoardOfCell[i, j] = new Cell(i, j, new Pawn(TeamColor.Player2));
+                        row.Add(new Cell(i, j, new Pawn(TeamColor.Player2)));
                     }
                     else
                     {
-                        this.BoardOfCell[i, j] = new Cell(i, j);
+                        row.Add(new Cell(i, j));
                     }
                 }
+                this.BoardOfCell.Add(row);
+            }
+            for (int i = 0; i < Length; i++)
+            {
+                for (int j = 0; j < Length; j++) FlatBoard.Add(BoardOfCell[i][j]);
             }
         }
         public Cell? this[int x, int y]
@@ -41,10 +52,11 @@ namespace ModelHexa
             get
             {
                 if (x >= 0 && x < Length && y >= 0 && y < Length)
-                    return BoardOfCell[x, y];
+                    return BoardOfCell[x][y];
                 return null;
             }
         }
+
 
         public bool allPawns(ref Cell[] tab1, ref Cell[] tab2)
         {
@@ -124,8 +136,8 @@ namespace ModelHexa
                 if (X == 0) win = true;
             }
             newp = new Pawn(p.teamColor);
-            BoardOfCell[X, Y].Pawn = newp;
-            BoardOfCell[c.X, c.Y].Pawn = null;
+            BoardOfCell[X][Y].Pawn = newp;
+            BoardOfCell[c.X][c.Y].Pawn = null;
             return true;
         }
         public void Affiche()
@@ -136,9 +148,9 @@ namespace ModelHexa
                 Console.Write($" {i} ");
                 for (int j = 0; j < Length; j++)
                 {
-                    if (BoardOfCell[i, j].Pawn.HasValue)
+                    if (BoardOfCell[i][j].Pawn.HasValue)
                     {
-                        if (BoardOfCell[i, j].Pawn.Value.Color == TeamColor.Player1) Console.Write(" W ");
+                        if (BoardOfCell[i][j].Pawn.Value.Color == TeamColor.Player1) Console.Write(" W ");
                         else Console.Write(" B ");
                     }
                     else Console.Write(" _ ");

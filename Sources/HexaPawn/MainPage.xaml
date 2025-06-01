@@ -19,9 +19,29 @@
             <Button Text="4x4" Style="{StaticResource MenuButtonStyle}" />
             <Button Text="5x5" Style="{StaticResource MenuButtonStyle}" />
         </VerticalStackLayout>
-
-        
-        <Grid Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
+        <CollectionView ItemsSource="{Binding Plateau.FlatBoard}"
+                BackgroundColor="Azure"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                        Grid.Column="1">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical"
+                            Span="{Binding Plateau.Length}"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border WidthRequest="30" HeightRequest="30"
+                    BackgroundColor="#3E3232"
+                    Margin="4">
+                        <Label Text="{Binding}"
+                        TextColor="Black"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center"/>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <!--<Grid Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
@@ -51,7 +71,7 @@
             <BoxView Grid.RowSpan="3" Grid.ColumnSpan="3"
                      Color="Black" Opacity="0.15"
                      Margin="1"/>
-        </Grid>
+        </Grid>-->
 
         
         <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
