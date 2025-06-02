@@ -8,6 +8,7 @@ trigger:
       - master
       - F3_Class
       - feat*
+      - data
     exclude:
     - doc*
   event:
