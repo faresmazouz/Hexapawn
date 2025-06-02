@@ -13,63 +13,76 @@
                     BackgroundColor="#5A4745"
                     StrokeShape="RoundRectangle"
                     Padding="20">
+                <VerticalStackLayout Spacing="30" HorizontalOptions="Center">
 
-                <VerticalStackLayout Spacing="20" BindingContext="{Binding Score}">
+                    <!-- Total games played -->
+                    <VerticalStackLayout Spacing="10" BindingContext="{Binding PartiesTotales}">
+                        <Label Text="Nombre de parties totales jouées contre un BOT :" 
+                               TextColor="White" FontSize="24" FontFamily="OpenSansBold" 
+                               HorizontalOptions="Center"/>
+                        <Label Text="{Binding Value}"
+                               TextColor="White" FontSize="18" FontFamily="OpenSansBold"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
 
-                    <!-- Total games played against bot -->
-                    <Label Text="Nombre de parties totales jouées contre un BOT :"
-                    TextColor="White" FontSize="50" FontFamily="OpenSansBold"/>
-                    <Label Text="{Binding NbPartiesTotales}"
-                           TextColor="White" FontSize="20" FontFamily="OpenSansBold"/>
+                    <!-- Bot games -->
+                    <VerticalStackLayout Spacing="10" BindingContext="{Binding PartiesVsBot}">
+                        <Label Text="Nombre de parties jouées par le BOT :"
+                               TextColor="White" FontSize="24" FontFamily="OpenSansBold"
+                               HorizontalOptions="Center"/>
+                        <Label Text="{Binding Value}"
+                               TextColor="White" FontSize="18" FontFamily="OpenSansBold"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
 
-                    <!-- Games played by the bot -->
-                    <Label Text="Nombre de parties jouées par le BOT : "
-                           TextColor="White" FontSize="50" FontFamily="OpenSansBold"/>
-                    <Label Text="{Binding NbPartiesVsBot}"
-                           TextColor="White" FontSize="20" FontFamily="OpenSansBold"/>
+                    <!-- Victoires / Défaites globales -->
+                    
+                        <VerticalStackLayout Spacing="10" Grid.Column="0" BindingContext="{Binding Victoires}">
+                            <Label Text="Victoires :" 
+                                   TextColor="White" FontSize="22" FontFamily="OpenSansBold"/>
+                            <Label Text="{Binding Value}" 
+                                   TextColor="White" FontSize="20" FontFamily="OpenSansBold"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
 
-                    <!-- Bot level -->
-                    <Label Text="Niveau du bot : Amateur" 
-                           TextColor="White" FontSize="50" FontFamily="OpenSansBold"/>  <!--a modifier plus tard -->
+                        <VerticalStackLayout Spacing="10" Grid.Column="1" BindingContext="{Binding Defaites}">
+                            <Label Text="Défaites :" 
+                                   TextColor="White" FontSize="22" FontFamily="OpenSansBold"/>
+                            <Label Text="{Binding Value}" 
+                                   TextColor="White" FontSize="20" FontFamily="OpenSansBold"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    
 
-                    <!-- Victories and defeats -->
-                    <Grid ColumnDefinitions="*,*" BindingContext="{Binding Mgr}">
-                        <Label Text="Victoires : "
-                               TextColor="White" FontSize="60" FontFamily="OpenSansBold"
-                               Grid.Column="0"/>
-                        <Label Text="{Binding NbVictoires}"
-                                 TextColor="White" FontSize="60" FontFamily="OpenSansBold"
-                                 HorizontalTextAlignment="End"
-                                 Grid.Column="0"/>
+                    <!-- Victoires / Défaites vs Bot actuel -->
+                    
+                        <VerticalStackLayout Spacing="10" Grid.Column="0" BindingContext="{Binding VictoiresVsBot}">
+                            <Label Text="Victoires vs Bot actuel :" 
+                                   TextColor="White" FontSize="18" FontFamily="OpenSansBold"/>
+                            <Label Text="{Binding Value}" 
+                                   TextColor="White" FontSize="16" FontFamily="OpenSansBold"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
 
-                        <Label Text="Défaites : "
-                               TextColor="White" FontSize="60" FontFamily="OpenSansBold"
-                               HorizontalTextAlignment="End"
-                               Grid.Column="1"/>
-                        <Label Text="{Binding NbDefaites}"
-                                    TextColor="White" FontSize="60" FontFamily="OpenSansBold"
-                                    HorizontalTextAlignment="End"
-                                    Grid.Column="1"/>
-                    </Grid>
+                        <VerticalStackLayout Spacing="10" Grid.Column="1" BindingContext="{Binding DefaitesVsBot}">
+                            <Label Text="Défaites vs Bot actuel :" 
+                                   TextColor="White" FontSize="18" FontFamily="OpenSansBold"/>
+                            <Label Text="{Binding Value}" 
+                                   TextColor="White" FontSize="16" FontFamily="OpenSansBold"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    
 
-                    <!-- Victories/defeats against current bot -->
-                    <Label Text="Victoires contre le bot actuel :"
-                           TextColor="White" FontSize="16" FontFamily="OpenSansBold"/>
-                    <Label Text="{Binding NbVictoiresVsBot}"
-                            TextColor="White" FontSize="16" FontFamily="OpenSansBold"/>
-
-                    <!-- Reset bot level button -->
-                    <Button Text="Réinitialiser le niveau du bot"
+                    <!-- Reset button -->
+                    <Button Text="Réinitialiser les scores"
                             BackgroundColor="#F9EAEA"
                             TextColor="Black"
                             FontSize="16"
                             FontAttributes="Bold"
                             CornerRadius="15"
                             HeightRequest="50"
-                            Padding="10"
-                            HorizontalOptions="Center"
                             WidthRequest="300"
-                            />
+                            HorizontalOptions="Center"/>
 
                     <!-- Back button -->
                     <ImageButton Source="back_icon.png"
@@ -77,9 +90,8 @@
                                  HeightRequest="44"
                                  WidthRequest="44"
                                  CornerRadius="12"
-                                 HorizontalOptions="Start"
-                                 />
-                    
+                                 HorizontalOptions="Start"/>
+
                 </VerticalStackLayout>
             </Border>
         </Grid>

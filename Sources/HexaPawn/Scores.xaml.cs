@@ -8,6 +8,7 @@ public partial class Scores : ContentPage
 
     public Scores()
     {
+        
         InitializeComponent(); 
         Mgr.Charger(); // Charger les scores depuis le fichier XML
         BindingContext = this;
