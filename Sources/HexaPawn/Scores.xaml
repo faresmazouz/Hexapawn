@@ -65,7 +65,7 @@
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="10" Grid.Column="1" BindingContext="{Binding DefaitesVsBot}">
-                            <Label Text="Défaites vs Bot actuel :" 
+                        <Label Text="Défaites vs Bot actuel :" 
                                    TextColor="White" FontSize="18" FontFamily="OpenSansBold"/>
                             <Label Text="{Binding Value}" 
                                    TextColor="White" FontSize="16" FontFamily="OpenSansBold"
@@ -74,7 +74,7 @@
                     
 
                     <!-- Reset button -->
-                    <Button Text="Réinitialiser les scores"
+                    <Button Text="Afficher le tableau des scores"
                             BackgroundColor="#F9EAEA"
                             TextColor="Black"
                             FontSize="16"
