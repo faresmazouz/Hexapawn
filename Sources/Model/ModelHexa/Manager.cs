@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
+using System.Xml;
 
 namespace ModelHexa
 {
@@ -14,12 +14,11 @@ namespace ModelHexa
         public Score PartiesTotales { get; private set; } = new Score();
         public Score PartiesVsBot { get; private set; } = new Score();
 
-        private static string FichierScores =>
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "scores.json");
+        private readonly string _cheminFichier;
 
-        // Le constructeur appelle Charger()
-        public Manager()
+        public Manager(string cheminFichier = null)
         {
+            _cheminFichier = cheminFichier ?? Path.Combine(AppContext.BaseDirectory, "scores.xml");
             Charger();
         }
 
@@ -35,29 +34,30 @@ namespace ModelHexa
                 PartiesVsBot = PartiesVsBot.Value
             };
 
-            var serializer = new DataContractJsonSerializer(typeof(ScoreData));
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                serializer.WriteObject(memoryStream, data);
-                memoryStream.Position = 0;
+            var serializer = new DataContractSerializer(typeof(ScoreData));
 
-                using (FileStream fileStream = File.Create(FichierScores))
-                {
-                    memoryStream.WriteTo(fileStream);
-                }
+            var settings = new XmlWriterSettings { Indent = true };
+
+            using (TextWriter tw = File.CreateText(_cheminFichier))
+            using (XmlWriter writer = XmlWriter.Create(tw, settings))
+            {
+                serializer.WriteObject(writer, data);
             }
+
+            Console.WriteLine(">> Scores sauvegardés en XML dans : " + _cheminFichier);
         }
 
         public void Charger()
         {
-            if (!File.Exists(FichierScores))
+            if (!File.Exists(_cheminFichier))
             {
-                Console.WriteLine(">> Fichier scores.json introuvable.");
+                Console.WriteLine(">> Fichier XML introuvable : " + _cheminFichier);
                 return;
             }
 
-            var serializer = new DataContractJsonSerializer(typeof(ScoreData));
-            using (FileStream stream = File.OpenRead(FichierScores))
+            var serializer = new DataContractSerializer(typeof(ScoreData));
+
+            using (Stream stream = File.OpenRead(_cheminFichier))
             {
                 var data = serializer.ReadObject(stream) as ScoreData;
                 if (data != null)
@@ -69,11 +69,11 @@ namespace ModelHexa
                     PartiesTotales.Value = data.PartiesTotales;
                     PartiesVsBot.Value = data.PartiesVsBot;
 
-                    Console.WriteLine(">> Scores chargés depuis le fichier JSON.");
+                    Console.WriteLine(">> Scores chargés depuis XML : " + _cheminFichier);
                 }
                 else
                 {
-                    Console.WriteLine(">> Le fichier JSON est vide ou mal formé.");
+                    Console.WriteLine(">> Erreur lors de la désérialisation XML.");
                 }
             }
         }
