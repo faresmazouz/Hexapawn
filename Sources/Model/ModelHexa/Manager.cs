@@ -22,6 +22,7 @@ namespace ModelHexa
             Charger();
         }
 
+
         public void Sauvegarder()
         {
             var data = new ScoreData
