@@ -1,4 +1,4 @@
-namespace solution;
+namespace Hexapawn;
 public partial class ThemePage : ContentPage
 {
 	public ThemePage()

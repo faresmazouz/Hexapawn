@@ -2,64 +2,102 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="solution.Scores"
+    xmlns:model="clr-namespace:ModelHexa;assembly=ModelHexa"
+    x:Class="Hexapawn.Scores"
     BackgroundColor="#F0F0F0"
     Title="Scores">
 
     <ScrollView>
-        <Grid Padding="20">
+        <Grid Padding="20" BindingContext="{Binding Mgr}">
             <Border StrokeThickness="0"
                     BackgroundColor="#5A4745"
                     StrokeShape="RoundRectangle"
                     Padding="20">
+                <VerticalStackLayout Spacing="30" HorizontalOptions="Center">
 
-                <VerticalStackLayout Spacing="20">
+                    <!-- Total games played -->
+                    <VerticalStackLayout Spacing="10" BindingContext="{Binding PartiesTotales}">
+                        <Label Text="Nombre de parties totales jouées contre un BOT :" 
+                               TextColor="White" FontSize="24" FontFamily="OpenSansBold" 
+                               HorizontalOptions="Center"/>
+                        <Label Text="{Binding Value}"
+                               TextColor="White" FontSize="18" FontFamily="OpenSansBold"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
 
+                    <!-- Bot games -->
+                    <VerticalStackLayout Spacing="10" BindingContext="{Binding PartiesVsBot}">
+                        <Label Text="Nombre de parties jouées par le BOT :"
+                               TextColor="White" FontSize="24" FontFamily="OpenSansBold"
+                               HorizontalOptions="Center"/>
+                        <Label Text="{Binding Value}"
+                               TextColor="White" FontSize="18" FontFamily="OpenSansBold"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
 
-                    <Label Text="Nombre de parties totales jouées contre un BOT : 4484"
-                           TextColor="White" FontSize="50" FontFamily="OpenSansBold"/>
-                    <Label Text="Nombre de parties jouées par le BOT : 12"
-                           TextColor="White" FontSize="50" FontFamily="OpenSansBold"/>
-                    <Label Text="Niveau du bot : Amateur"
-                           TextColor="White" FontSize="50" FontFamily="OpenSansBold"/>
+                    <!-- Victoires / Défaites globales -->
+                    
+                        <VerticalStackLayout Spacing="10" Grid.Column="0" BindingContext="{Binding Victoires}">
+                            <Label Text="Victoires :" 
+                                   TextColor="White" FontSize="22" FontFamily="OpenSansBold"/>
+                            <Label Text="{Binding Value}" 
+                                   TextColor="White" FontSize="20" FontFamily="OpenSansBold"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
 
+                        <VerticalStackLayout Spacing="10" Grid.Column="1" BindingContext="{Binding Defaites}">
+                            <Label Text="Défaites :" 
+                                   TextColor="White" FontSize="22" FontFamily="OpenSansBold"/>
+                            <Label Text="{Binding Value}" 
+                                   TextColor="White" FontSize="20" FontFamily="OpenSansBold"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    
 
-                    <Grid ColumnDefinitions="*,*">
-                        <Label Text="Victoires : 2242"
-                               TextColor="White" FontSize="60" FontFamily="OpenSansBold"
-                               Grid.Column="0"/>
-                        <Label Text="Défaites : 2242"
-                               TextColor="White" FontSize="60" FontFamily="OpenSansBold"
-                               HorizontalTextAlignment="End"
-                               Grid.Column="1"/>
-                    </Grid>
+                    <!-- Victoires / Défaites vs Bot actuel -->
+                    
+                        <VerticalStackLayout Spacing="10" Grid.Column="0" BindingContext="{Binding VictoiresVsBot}">
+                            <Label Text="Victoires vs Bot actuel :" 
+                                   TextColor="White" FontSize="18" FontFamily="OpenSansBold"/>
+                            <Label Text="{Binding Value}" 
+                                   TextColor="White" FontSize="16" FontFamily="OpenSansBold"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
 
+                        <VerticalStackLayout Spacing="10" Grid.Column="1" BindingContext="{Binding DefaitesVsBot}">
+                        <Label Text="Défaites vs Bot actuel :" 
+                                   TextColor="White" FontSize="18" FontFamily="OpenSansBold"/>
+                            <Label Text="{Binding Value}" 
+                                   TextColor="White" FontSize="16" FontFamily="OpenSansBold"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    
 
-                    <Label Text="Victoires contre le bot actuel : 5    Défaites contre le bot actuel : 7"
-                           TextColor="White" FontSize="16" FontFamily="OpenSansBold"/>
-
-
-                    <Button Text="Réinitialiser le niveau du bot"
+                    <!-- Reset button -->
+                    <Button Text="Afficher le tableau des scores"
                             BackgroundColor="#F9EAEA"
                             TextColor="Black"
                             FontSize="16"
                             FontAttributes="Bold"
                             CornerRadius="15"
                             HeightRequest="50"
-                            Padding="10"
-                            HorizontalOptions="Center"
-                            WidthRequest="300">
-                    </Button>
+                            WidthRequest="300"
+                            HorizontalOptions="Center"/>
 
-
+                    <!-- Back button -->
                     <ImageButton Source="back_icon.png"
                                  BackgroundColor="White"
                                  HeightRequest="44"
                                  WidthRequest="44"
                                  CornerRadius="12"
+<<<<<<< HEAD
                                  HorizontalOptions="Start"
                                  Clicked="ImageButton_Clicked"/>
                     
+=======
+                                 HorizontalOptions="Start"/>
+
+>>>>>>> origin/data
                 </VerticalStackLayout>
             </Border>
         </Grid>

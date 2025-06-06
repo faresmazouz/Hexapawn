@@ -1,9 +1,13 @@
+<<<<<<< HEAD
 ﻿using System.ComponentModel;
 using System.Security.Cryptography;
 using System.Windows.Input;
 using ModelHexa;
 
 namespace solution;
+=======
+namespace Hexapawn;
+>>>>>>> origin/data
 
 public partial class MainPage : ContentPage, INotifyPropertyChanged
 {
