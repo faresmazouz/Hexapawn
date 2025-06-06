@@ -80,6 +80,9 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
     {
         await Navigation.PushAsync(new ThemePage());
     }
-
+    private async void OnClickedRules(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new RulesPage());
+    }
 
 }
