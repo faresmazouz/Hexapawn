@@ -19,5 +19,10 @@
         Title="Themes"
         ContentTemplate="{DataTemplate local:ThemePage}"
         Route="ThemePage" />
-    
+    <ShellContent
+        Title="Règles"
+        ContentTemplate="{DataTemplate local:RulesPage}"
+        Route="RulesPage" />
+
+
 </Shell>

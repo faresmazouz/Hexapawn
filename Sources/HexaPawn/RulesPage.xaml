@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="solution.RulesPage"
+    BackgroundColor="#3E3232"
+    Padding="20">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="25">
+
+            <!-- Titre -->
+            <Label Text="Les règles du Hexapawn"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center" />
+
+            <!-- Description -->
+            <Label Text="Hexapawn est un jeu de stratégie simple qui se joue sur un petit plateau de 3 cases par 3 (3×3)."
+                   TextColor="White"
+                   FontSize="16" />
+
+            <!-- Mise en place -->
+            <Label Text="Mise en place :" FontSize="18" FontAttributes="Bold" TextColor="White"/>
+            <Label Text="▪ La ligne du haut (rangée 0) est entièrement occupée par les pions noirs."
+                   TextColor="White" FontSize="16"/>
+            <Label Text="▪ La ligne du bas (rangée 2) est entièrement occupée par les pions blancs."
+                   TextColor="White" FontSize="16"/>
+            <Label Text="▪ La ligne du milieu (rangée 1) est vide en début de partie."
+                   TextColor="White" FontSize="16"/>
+
+            <!-- Déplacement -->
+            <Label Text="Règles de déplacement :" FontSize="18" FontAttributes="Bold" TextColor="White"/>
+            <Label Text="▪ Chaque pion peut avancer d’une seule case vers l’avant (vers le camp adverse), en ligne droite uniquement."
+                   TextColor="White" FontSize="16"/>
+            <Label Text="▪ Un pion peut se déplacer en diagonale d’une case pour capturer un pion adverse, mais seulement si un pion adverse se trouve sur cette diagonale."
+                   TextColor="White" FontSize="16"/>
+            <Label Text="▪ Les pions ne peuvent pas reculer."
+                   TextColor="White" FontSize="16"/>
+
+            <!-- Fin de partie -->
+            <Label Text="Conditions de fin de partie :" FontSize="18" FontAttributes="Bold" TextColor="White"/>
+            <Label Text="Un joueur remporte soit la partie lorsqu’un de ses pions atteint la ligne de départ de l’adversaire, soit lorsque tous les pions adverses ont été mangés, soit lorsque l’adversaire ne peut plus effectuer de mouvement légal (par exemple, deux pions se bloquent mutuellement face à face)."
+                   TextColor="White" FontSize="16"/>
+
+            <!-- Bouton retour en haut à droite -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text=""
+                       Grid.Column="0"/>
+
+                <Border
+                    Grid.Column="2"
+                    Margin="10"
+                    HorizontalOptions="End"
+                    VerticalOptions="Start"
+                    BackgroundColor="#DDDDDD"
+                    HeightRequest="40"
+                    WidthRequest="40">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+                    <Label Text="←"
+                        FontSize="24"
+                        FontAttributes="Bold"
+                        TextColor="Black"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start"
+                        Margin="10,1,0,0">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnBackClicked" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Border>
+            </Grid>
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

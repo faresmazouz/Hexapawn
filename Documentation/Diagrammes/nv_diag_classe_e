@@ -1,0 +1,76 @@
+
+Ce rapport présente l'architecture logicielle du jeu de stratégie tour par tour Hexapawn, développé en C# avec l'objectif de créer une interface réactive et évolutive . 
+
+Classe Board 
+
+La classe Board contient la structure principale du plateau sous forme de : 
+
+ObservableCollection<ObservableCollection<Cell>> boardOfCell 
+
+Cette double collection observable permet de notifier automatiquement les modifications à l’interface utilisateur. Elle permet d’afficher en temps réel l’évolution du plateau. 
+
+Le FlatBoard est une liste linéaire du plateau utilisée pour faciliter l’affichage dans les vues UI (par exemple avec un GridView). 
+
+Chaque Cell possède : 
+
+• Ses coordonnées (X, Y) 
+
+• Un pion (Pawn) ou est vide 
+
+Un pion est caractérisé par une couleur (TeamColor) qui peut être Player1, Player2 ou Unknown. 
+
+La classe IPlayer Définit les comportements standards d’un joueur : 
+
+• Choix du pion et du mouvement 
+
+• Réaction aux changements du plateau
+
+
+• HumanPlayer : interaction utilisateur 
+
+• BOTPlayer : comportement automatique 
+
+La classe Rules fournit la logique du jeu: 
+
+• isMoveValid(...) : valide les coups 
+
+• allMoves(...) : retourne tous les coups possibles sous forme d’un dictionnaire 
+
+L’enum Move précise les types de déplacements : moveBy1, eatLeft, eatRight, cantMove.
+
+Gestion des Événements 
+
+BoardChangedEventArgs Notifie un changement sur le plateau
+WrongInputEventArgs
+Informe d'une saisie invalide
+UserHaveToChooseEventArgs
+Demande un choix utilisateur
+TurnStartedEventArgs Débute un nouveau tour
+PawnCapturedEventArgs
+Informe d'une capture
+GameEndedEventArgs
+Informe de la fin de la partie 
+
+Classe Score 
+
+Contient une valeur observable, utile pour l’affichage dynamique ( binding). 
+
+Classe ScoreData 
+
+Regroupe les statistiques générales du joueur : 
+
+• Victoires/Défaites (total et vs bot) 
+
+• Parties jouées 
+
+Classe Manager 
+
+Gère : 
+
+• Le stockage des scores dans un fichier JSON (scores.json) 
+
+• Le chargement/sauvegarde via ScoreData 
+
+L'architecture présentée permet une séparation claire des responsabilités, une évolution facilitée et une interface graphique réactive. L'utilisation d'ObservableCollection assemblée a un système d’événements assure une communication fluide entre le moteur du jeu et la couche UI. 
+
+Le projet est facilement extensible (nouveaux types de joueurs, IA avancée, animations, etc.) et respecte les principes de conception orientée objet.
