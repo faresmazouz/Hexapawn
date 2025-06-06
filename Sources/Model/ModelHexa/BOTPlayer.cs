@@ -30,7 +30,6 @@ namespace ModelHexa
         public override Move ChooseMove(List<Move> l, Cell c, ref bool choixFait)
         {
             Move m = l[GetSecureRandomInt(l.Count)];
-            choixFait = true;
             return m;
         }
 
@@ -38,6 +37,12 @@ namespace ModelHexa
         {
             List<Cell> listOfPawn = new List<Cell>(dict.Keys);
             return listOfPawn[GetSecureRandomInt(listOfPawn.Count)];
+        }
+        public override void PlayTurn(Dictionary<Cell, List<Move>> mymoves, Board b, Rules r, Player nextp, ref TeamColor winner)
+        {
+            bool c= false;
+            Cell abouger = ChoosePawn(mymoves);
+            Move move = ChooseMove(mymoves[abouger], abouger, ref c );
         }
     }
 }

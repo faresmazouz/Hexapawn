@@ -9,7 +9,7 @@ namespace ModelHexa
     public class Board
     {
         public ObservableCollection<ObservableCollection<Cell>> BoardOfCell { get; }
-        public ObservableCollection<Cell> FlatBoard {  get; }
+        public ObservableCollection<Cell> FlatBoard { get; set; }
         public int Length { get; }
         /// <summary>
         /// Plateau de jeu contenant un tableau à deux dimensions de Cell. C'est sur lui que va se dérouler la partie
@@ -20,8 +20,6 @@ namespace ModelHexa
             FlatBoard=new ObservableCollection<Cell>();
             this.Length = length;
             this.BoardOfCell = new ObservableCollection<ObservableCollection<Cell>>();
-            this.BoardOfCell = new ObservableCollection<ObservableCollection<Cell>>();
-
             for (int i = 0; i < length; i++)
             {
                 ObservableCollection<Cell> row = new ObservableCollection<Cell>();
@@ -81,7 +79,15 @@ namespace ModelHexa
             return true;
         }
 
-
+        private void updateFlat()
+        {
+            ObservableCollection<Cell> tmpFlatBoard = new ObservableCollection<Cell>();
+            for (int i = 0; i < Length; i++)
+            {
+                for (int j = 0; j < Length; j++) tmpFlatBoard.Add(BoardOfCell[i][j]);
+            }
+            FlatBoard = tmpFlatBoard;
+        }
         public bool MovePawn(Rules r, Player p, Cell c, Move m, ref bool win)
         {
             if (m == Move.cantMove || !r.isMoveValid(this, m, p.teamColor, c)) return false;
@@ -138,6 +144,21 @@ namespace ModelHexa
             newp = new Pawn(p.teamColor);
             BoardOfCell[X][Y].Pawn = newp;
             BoardOfCell[c.X][c.Y].Pawn = null;
+            if (p.teamColor == TeamColor.Player1)
+            {
+                if (r.allMoves(this, TeamColor.Player2).Count == 0)
+                {
+                    win = true;
+                }
+            }
+            else
+            {
+                if (r.allMoves(this, TeamColor.Player1).Count == 0)
+                {
+                    win = true;
+                }
+            }
+            updateFlat();
             return true;
         }
         public void Affiche()
