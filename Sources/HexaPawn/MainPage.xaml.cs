@@ -8,6 +8,7 @@ namespace solution;
 public partial class MainPage : ContentPage, INotifyPropertyChanged
 {
     private bool win = false;
+    private bool isCanceled = true;
     private Player Player1 { get; set; } = new HumanPlayer("",TeamColor.Unknown);
     private Player Player2 { get; set; } = new HumanPlayer("", TeamColor.Unknown);
     private string _buttonText;
@@ -39,7 +40,7 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
     private Rules Rules { get; set; } = new Rules();
     private ModelHexa.Cell selectedCell=new(10,1);
     private Board _plateau = new(3);
-    private TeamColor courant = TeamColor.Unknown;
+    private TeamColor courant = TeamColor.Player1;
     public Board Plateau
     {
         get => _plateau;
@@ -110,7 +111,8 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
         if (win)
         {
             textGiveUpButton = "Quitter";
-            Bandeau = $"{playerCour().Name} a gagné !";
+            if (Player1 is BOTPlayer && Player2 is BOTPlayer) Bandeau = $"{courant} a gagné !";
+            else Bandeau = $"{playerCour().Name} a gagné !";
             return;
         }
             if (a==TeamColor.Player1) a= TeamColor.Player2;
@@ -142,31 +144,39 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
         ChangeVisibility();
         Player1 = new HumanPlayer("P1",TeamColor.Player1);
         Player2 = new HumanPlayer("P2", TeamColor.Player2);
-        courant = TeamColor.Player1;
     }
     private void OnClickedBv1(object sender, EventArgs e)
     {
         ChangeVisibility();
     }
-    private void OnClickedBvB(object sender, EventArgs e)
+    private async void OnClickedBvB(object sender, EventArgs e)
     {
+        isCanceled = false;
         ChangeVisibility();
         Player1=new BOTPlayer(TeamColor.Player1);
         Player2 = new BOTPlayer(TeamColor.Player2);
-        TeamColor winner = TeamColor.Unknown;
-        while (!win)
+        Bandeau = "Demo";
+        textGiveUpButton = "Arrêter";
+        while (!win && !isCanceled)
         {
-            Player1.PlayTurn(Rules.allMoves(Plateau, TeamColor.Player1), Plateau, Rules, Player2, ref winner);
+            bool choixFait = false;
+            Dictionary<ModelHexa.Cell, List<Move>> allMoves = Rules.allMoves(Plateau, courant);
+            ModelHexa.Cell cellChoisie = playerCour().ChoosePawn(allMoves);
+            Move moveChoisi=playerCour().ChooseMove(allMoves[cellChoisie], cellChoisie, ref choixFait);
+            Plateau.MovePawn(Rules, playerCour(), cellChoisie, moveChoisi, ref win);
+            Switch(ref courant);
+            await Task.Delay(1000);
         }
     }
     private void OnClickedGiveUp(object sender, EventArgs e)
     {
+        isCanceled = true;
         ChangeVisibility();
         textGiveUpButton = "Abandonner";
         Plateau = new(3);
         win = false;
         Player1 = new HumanPlayer("", TeamColor.Unknown);
-        Player2 = new HumanPlayer("", TeamColor.Unknown);
+        Player2 = new HumanPlayer("",TeamColor.Unknown);
         Bandeau = $"{TeamColor.Player1}";
         textGiveUpButton = "Abandonner";
     }
