@@ -1,16 +1,29 @@
+using ModelHexa;
+namespace Hexapawn;
 
-
-namespace solution;
 
 public partial class Scores : ContentPage
 {
-	public Scores()
-	{
-		InitializeComponent();
-	}
+    public Manager Mgr { get; private set; } = new Manager(); 
 
+<<<<<<< HEAD
     private async void ImageButton_Clicked(object sender, EventArgs e)
     {
         await Navigation.PopAsync();
+=======
+    public Scores()
+    {
+        
+        InitializeComponent(); 
+        Mgr.Charger(); // Charger les scores depuis le fichier XML
+        BindingContext = this;
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        Mgr.Charger(); // Recharger les scores à chaque fois que la page apparaît
+        OnPropertyChanged(nameof(Mgr)); // Notifier que le contexte de liaison a changé
+>>>>>>> origin/data
     }
 }

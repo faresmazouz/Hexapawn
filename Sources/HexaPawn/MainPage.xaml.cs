@@ -1,9 +1,13 @@
+<<<<<<< HEAD
 ﻿using System.ComponentModel;
 using System.Security.Cryptography;
 using System.Windows.Input;
 using ModelHexa;
 
 namespace solution;
+=======
+namespace Hexapawn;
+>>>>>>> origin/data
 
 public partial class MainPage : ContentPage, INotifyPropertyChanged
 {
@@ -75,27 +79,6 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
         Bvu.IsVisible = !Bvu.IsVisible;
         BvB.IsVisible = !BvB.IsVisible;
         GiveUp.IsVisible = !GiveUp.IsVisible;
-        Bndeau.IsVisible=!Bndeau.IsVisible;
-    }
-
-
-    private void OnCellTapped(ModelHexa.Cell cell)
-    {
-        if (playerCour() is not HumanPlayer) return; //Si le joueur courant n'est pas un humain, on ne fait rien
-        if (win) return;
-        Dictionary<ModelHexa.Cell, List<Move>> allMoves = Rules.allMoves(Plateau, courant);
-        if (allMoves.Keys.Contains(cell)) //Si la cellule tapée est une pièce pouvant bouger, elle devient la pièce pour laquelle on fait le mouvement
-        {
-            selectedCell = cell;
-            return;
-        }
-        Move tente = toMove(selectedCell, cell, courant); // Donne le nom du mouvement partant de selectedCell et arrivant à cell
-        if (!allMoves.Keys.Contains(selectedCell)) return;
-        if (allMoves[selectedCell].Contains(tente))
-        {
-            Plateau.MovePawn(Rules, playerCour(), selectedCell, tente, ref win);
-            Switch(ref courant);
-        }
     }
 
 
@@ -111,8 +94,12 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
         if (win)
         {
             textGiveUpButton = "Quitter";
+<<<<<<< HEAD
             if (Player1 is BOTPlayer && Player2 is BOTPlayer) Bandeau = $"{courant} a gagné !";
             else Bandeau = $"{playerCour().Name} a gagné !";
+=======
+            Bandeau = $"{playerCour().Name} a gagn� !";
+>>>>>>> ab109c2bad781dfa4c6070f6c7ff5fad37a7f204
             return;
         }
             if (a==TeamColor.Player1) a= TeamColor.Player2;
@@ -205,6 +192,8 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
         if (Player1.teamColor == courant) return Player1;
         return Player2;
     }
-
-
+    private async void OnClickedRules(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new RulesPage());
+    }
 }
