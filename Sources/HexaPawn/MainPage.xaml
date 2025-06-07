@@ -20,11 +20,13 @@
             <Button x:Name="qxq"  Text="4x4" Style="{StaticResource MenuButtonStyle}"  Clicked="OnClicked4x4" IsVisible="True"/>
             <Button x:Name="cxc"  Text="5x5" Style="{StaticResource MenuButtonStyle}" Clicked="OnClicked5x5" IsVisible="True"/>
         </VerticalStackLayout>
-        <CollectionView ItemsSource="{Binding Plateau.FlatBoard}"
+        <CollectionView x:Name="LePlateau"
+            ItemsSource="{Binding Plateau.FlatBoard}"
                 BackgroundColor="Azure"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
-                        Grid.Column="1">
+                        Grid.Column="1"
+                        IsVisible="True">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical"
                             Span="{Binding Plateau.Length}"/>
@@ -48,6 +50,16 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        <Grid x:Name="nameEntry" ColumnDefinitions="*,*" RowDefinitions="*,*,*" ColumnSpacing="20" RowSpacing="20" IsVisible="False" HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="1" Padding="10">
+            <Label x:Name="LabelName1" Text="Nom du 1er joueur" FontSize="15" TextColor="White" Grid.Column="0" Grid.Row="0" IsVisible="False"/>
+            <Label x:Name="LabelName" Text="Nom du joueur" FontSize="15" TextColor="White" Grid.Column="0" Grid.Row="0" IsVisible="False"/>
+            <Entry x:Name="EntryName1" Placeholder="Nom du joueur" FontSize="15" PlaceholderColor="DarkSalmon" Grid.Column="0" Grid.Row="1"/>
+            <Label x:Name="LabelName2" Text="Nom du 2ème joueur" FontSize="15" TextColor="White" Grid.Column="1" Grid.Row="0" IsVisible="False"/>
+            <Entry x:Name="EntryName2" Placeholder="Nom du joueur" FontSize="15" PlaceholderColor="DarkSalmon" Grid.Column="1" Grid.Row="1" IsVisible="False"/>
+            <Label x:Name="LabelCheckBox" Text="Être le premier joueur?" FontSize="15" TextColor="White" Grid.Column="1" Grid.Row="0" IsVisible="False"/>
+            <CheckBox x:Name="CheckBox1" IsChecked="True" Grid.Column="1" Grid.Row="1" IsVisible="False"/>
+            <Button Text="Valider (le nom ne doit pas être Robot)" FontSize="15" TextColor="White" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Clicked="OnClickedNameEntry" BackgroundColor="Green"/>
+        </Grid> 
         <!--<Grid Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -80,8 +92,8 @@
                      Margin="1"/>
         </Grid>-->
 
-        
-        <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+
+        <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" >
             <Button x:Name="GiveUp"
         Text="{Binding textGiveUpButton}"
         Style="{StaticResource MenuButtonStyle}" 
@@ -97,7 +109,7 @@
 
         </VerticalStackLayout>
 
-       
+
         <Label Text="HEXAPAWN" Grid.ColumnSpan="3"
                FontFamily="Consolas"
                FontSize="40"

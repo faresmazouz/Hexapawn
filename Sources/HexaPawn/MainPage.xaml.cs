@@ -78,6 +78,23 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
         Bndeau.IsVisible=!Bndeau.IsVisible;
     }
 
+    public void HadToName(int nbNoms)
+    {
+        LePlateau.IsVisible = !LePlateau.IsVisible;
+        nameEntry.IsVisible = !nameEntry.IsVisible;
+        if (nbNoms == 2)
+        {
+            LabelName2.IsVisible = !LabelName2.IsVisible;
+            EntryName2.IsVisible = !EntryName2.IsVisible;
+            LabelName1.IsVisible = !LabelName1.IsVisible;
+        }
+        else 
+        {
+            LabelName.IsVisible = !LabelName.IsVisible;
+            CheckBox1.IsVisible = !CheckBox1.IsVisible;
+            LabelCheckBox.IsVisible = !LabelCheckBox.IsVisible;
+        }
+    }
 
     private async void OnCellTapped(ModelHexa.Cell cell)
     {
@@ -128,8 +145,9 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
         }
             if (a==TeamColor.Player1) a= TeamColor.Player2;
         else a = TeamColor.Player1;
-        Bandeau = $"{a}";
-        
+        if (Player2 is BOTPlayer && Player1 is BOTPlayer) Bandeau = $"{a}";
+        else Bandeau = $"{playerCour().Name}";
+
     }
 
 
@@ -153,27 +171,26 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
     private void OnClicked1v1(object sender, EventArgs e)
     {
         isCanceled = false;
+        HadToName(2);
         ChangeVisibility();
         courant = TeamColor.Player1;
-        Bandeau = $"{courant}";
-        Player1 = new HumanPlayer("P1",TeamColor.Player1);
-        Player2 = new HumanPlayer("P2", TeamColor.Player2);
+        Bandeau = $"{playerCour().Name}";
     }
     private void OnClickedBv1(object sender, EventArgs e)
     {
         isCanceled = false;
+        HadToName(1);
         ChangeVisibility();
         courant = TeamColor.Player1;
-        Bandeau = $"{courant}";
-        Player1 = new HumanPlayer("P1", TeamColor.Player1);
-        Player2 = new BOTPlayer(TeamColor.Player2);
+        Bandeau = $"{playerCour().Name}";
+        
     }
     private async void OnClickedBvB(object sender, EventArgs e)
     {
         isCanceled = false;
-        ChangeVisibility();
         Player1=new BOTPlayer(TeamColor.Player1);
         Player2 = new BOTPlayer(TeamColor.Player2);
+        ChangeVisibility();
         courant = TeamColor.Player1;
         Bandeau = $"{courant}"; 
         textGiveUpButton = "Arrêter";
@@ -190,6 +207,7 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
     }
     private void OnClickedGiveUp(object sender, EventArgs e)
     {
+        if (nameEntry.IsVisible) return;
         isCanceled = true;
         ChangeVisibility();
         textGiveUpButton = "Abandonner";
@@ -226,5 +244,40 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
         return Player2;
     }
 
-
+    private void OnClickedNameEntry(object sender, EventArgs e)
+    {
+        if (LabelName2.IsVisible)
+        {
+            if (string.IsNullOrWhiteSpace(EntryName2.Text) || string.IsNullOrWhiteSpace(EntryName1.Text) || EntryName2.Text == "Robot" || EntryName1.Text == "Robot" || EntryName2.Text == EntryName1.Text) return;
+            Player1 = new HumanPlayer(EntryName1.Text, TeamColor.Player1);
+            Player2 = new HumanPlayer(EntryName2.Text, TeamColor.Player2);
+            HadToName(2);
+            Bandeau=$"{playerCour().Name}";
+        }
+        else
+        {
+            if (string.IsNullOrWhiteSpace(EntryName1.Text) || EntryName1.Text == "Robot") return;
+            if (CheckBox1.IsChecked)
+            {
+                Player1 = new HumanPlayer(EntryName1.Text, TeamColor.Player1);
+                Player2 = new BOTPlayer(TeamColor.Player2);
+            }
+            else
+            {
+                Player2 = new HumanPlayer(EntryName1.Text, TeamColor.Player2);
+                Player1 = new BOTPlayer(TeamColor.Player1);
+            }
+            HadToName(1);
+            Bandeau = $"{playerCour().Name}";
+            if (playerCour() is BOTPlayer)
+            {
+                bool choixFait = false;
+                Dictionary<ModelHexa.Cell, List<Move>> AllMoves = Rules.allMoves(Plateau, courant);
+                ModelHexa.Cell cellChoisie = playerCour().ChoosePawn(AllMoves);
+                Move moveChoisi = playerCour().ChooseMove(AllMoves[cellChoisie], cellChoisie, ref choixFait);
+                Plateau.MovePawn(Rules, playerCour(), cellChoisie, moveChoisi, ref win);
+                Switch(ref courant);
+            }
+        }
+    }
 }
