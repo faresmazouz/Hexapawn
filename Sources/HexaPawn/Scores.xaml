@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="solution.Scores"
+    BackgroundColor="#F0F0F0"
+    Title="Scores">
+
+    <ScrollView>
+        <Grid Padding="20">
+            <Border StrokeThickness="0"
+                    BackgroundColor="#5A4745"
+                    StrokeShape="RoundRectangle"
+                    Padding="20">
+
+                <VerticalStackLayout Spacing="20">
+
+
+                    <Label Text="Nombre de parties totales jouées contre un BOT : 4484"
+                           TextColor="White" FontSize="50" FontFamily="OpenSansBold"/>
+                    <Label Text="Nombre de parties jouées par le BOT : 12"
+                           TextColor="White" FontSize="50" FontFamily="OpenSansBold"/>
+                    <Label Text="Niveau du bot : Amateur"
+                           TextColor="White" FontSize="50" FontFamily="OpenSansBold"/>
+
+
+                    <Grid ColumnDefinitions="*,*">
+                        <Label Text="Victoires : 2242"
+                               TextColor="White" FontSize="60" FontFamily="OpenSansBold"
+                               Grid.Column="0"/>
+                        <Label Text="Défaites : 2242"
+                               TextColor="White" FontSize="60" FontFamily="OpenSansBold"
+                               HorizontalTextAlignment="End"
+                               Grid.Column="1"/>
+                    </Grid>
+
+
+                    <Label Text="Victoires contre le bot actuel : 5    Défaites contre le bot actuel : 7"
+                           TextColor="White" FontSize="16" FontFamily="OpenSansBold"/>
+
+
+                    <Button Text="Réinitialiser le niveau du bot"
+                            BackgroundColor="#F9EAEA"
+                            TextColor="Black"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            CornerRadius="15"
+                            HeightRequest="50"
+                            Padding="10"
+                            HorizontalOptions="Center"
+                            WidthRequest="300">
+                    </Button>
+
+
+                    <ImageButton Source="back_icon.png"
+                                 BackgroundColor="White"
+                                 HeightRequest="44"
+                                 WidthRequest="44"
+                                 CornerRadius="12"
+                                 HorizontalOptions="Start"
+                                 Clicked="ImageButton_Clicked"/>
+                    
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>

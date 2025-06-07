@@ -1,0 +1,23 @@
+Le diagramme de classes présenté reflète fidèlement la structure logicielle du projet Hexapawn en mettant en évidence les relations existantes entre les différentes entités. 
+
+Chaque flèche tracée entre deux classes correspond à une relation significative choisie en fonction du rôle et de l’usage effectif de ces classes dans le code. 
+
+L’héritage est utilisé lorsqu’une classe hérite directement du comportement d’une autre, comme c’est le cas de BOTPlayer et HumanPlayer qui étendent la classe abstraite IPlayer. 
+
+La composition est utilisée lorsqu’une classe en contient une autre de manière exclusive et que leur cycle de vie est lié, comme Board qui contient une grille fixe de Cell créées lors de son instanciation. 
+
+L’agrégation est utilisée lorsque la classe référencée peut exister indépendamment, comme le Pawn contenu dans une Cell, qui peut être nul ou interchangeable. 
+
+L’association simple est utilisée lorsque deux classes interagissent de façon stable dans le temps, comme IPlayer qui est associé à Board, sur lequel le joueur joue, ou comme BoardChangedEventArgs qui transmet une référence au Board lors d’un changement d’état. 
+
+La dépendance est utilisée lorsque l’usage d’une classe est ponctuel ou indirect, par exemple via un paramètre de méthode ou un typage. 
+
+La classe Rules dépend de Board, Cell, Move et TeamColor pour valider les mouvements du jeu. 
+
+La classe Move dépend de IPlayer et Board dans les méthodes de déplacement. 
+
+La classe IPlayer dépend de Cell et Rules pour choisir un pion et appliquer les règles du jeu. 
+
+La classe TeamColor est utilisée dans plusieurs entités comme typage logique. 
+
+La classe BoardChangedEventArgs dépend de IPlayer, Cell et Move pour transmettre le contexte d’un changement de plateau.

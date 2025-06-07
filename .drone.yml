@@ -1,0 +1,54 @@
+kind: pipeline
+type: docker
+name: pipelinedefaresthomas
+
+trigger:
+  branch:
+    include:
+      - master
+      - F3_Class
+      - feat*
+    exclude:
+    - doc*
+  event:
+    - push
+
+steps:
+  - name: build
+    image: mcr.microsoft.com/dotnet/sdk:9.0
+    commands:
+      - cd Sources
+      - dotnet restore solution.sln
+      - dotnet build solution.sln -c Release --no-restore
+
+  - name: test
+    image: mcr.microsoft.com/dotnet/sdk:9.0
+    commands:
+      - cd Sources
+      - dotnet restore solution.sln
+      - dotnet build solution.sln -c Release --no-restore
+
+
+  - name: code-inspection
+    image: hub.codefirst.iut.uca.fr/marc.chevaldonne/codefirst-dronesonarplugin-dotnet9
+    secrets: [ SECRET_SONAR_LOGIN ]
+    settings:
+      sonar_host: https://codefirst.iut.uca.fr/sonar/
+      sonar_token:
+        from_secret: SECRET_SONAR_LOGIN
+    commands:
+      - cd Sources/
+      - dotnet restore solution.sln
+      - dotnet sonarscanner begin /k:Hexapawn2025 /d:sonar.host.url=$${PLUGIN_SONAR_HOST} /d:sonar.coverageReportPaths="coveragereport/SonarQube.xml" /d:sonar.coverage.exclusions="Test**/**" /d:sonar.login=$${PLUGIN_SONAR_TOKEN} 
+      - dotnet build solution.sln -c Release --no-restore
+      - dotnet test solution.sln --logger trx --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura --collect "XPlat Code Coverage"
+      - reportgenerator -reports:"**/coverage.cobertura.xml" -reporttypes:SonarQube -targetdir:"coveragereport"
+      - dotnet publish solution.sln -c Release --no-restore -o CI_PROJECT_DIR/build/release
+      - dotnet sonarscanner end /d:sonar.login=$${PLUGIN_SONAR_TOKEN}
+
+  - name: doc
+    image: mcr.microsoft.com/dotnet/sdk:9.0
+    commands:
+      - cd Sources
+      - dotnet restore solution.sln
+      - dotnet build solution.sln -c Release --no-restore

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="solution.MainPage"
+             xmlns:local="clr-namespace:solution"
+             BackgroundColor="#3E3232">
+
+    <Grid Padding="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="5*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+
+        
+        <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+            <Button Text="Apparence" Style="{StaticResource MenuButtonStyle}" Clicked="OnClickedApparence"/>
+            <Label x:Name="texteMode" Text="mode de jeu" TextColor="White" FontSize="16" FontAttributes="Bold" HorizontalTextAlignment="Center" IsVisible="True"/>
+            <Button x:Name="cl"  Text="Classique" Style="{StaticResource MenuButtonStyle}"  Clicked="OnClickedClassic" IsVisible="True"/>
+            <Button x:Name="qxq"  Text="4x4" Style="{StaticResource MenuButtonStyle}"  Clicked="OnClicked4x4" IsVisible="True"/>
+            <Button x:Name="cxc"  Text="5x5" Style="{StaticResource MenuButtonStyle}" Clicked="OnClicked5x5" IsVisible="True"/>
+        </VerticalStackLayout>
+        <CollectionView x:Name="LePlateau"
+            ItemsSource="{Binding Plateau.FlatBoard}"
+                BackgroundColor="Azure"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                        Grid.Column="1"
+                        IsVisible="True">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical"
+                            Span="{Binding Plateau.Length}"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border WidthRequest="50" HeightRequest="50"
+                    BackgroundColor="#3E3232"
+                    Margin="4">
+                        <Label Text="{Binding Pawn}"
+                        TextColor="Black"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer
+        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CellTappedCommand}"
+        CommandParameter="{Binding .}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Grid x:Name="nameEntry" ColumnDefinitions="*,*" RowDefinitions="*,*,*" ColumnSpacing="20" RowSpacing="20" IsVisible="False" HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="1" Padding="10">
+            <Label x:Name="LabelName1" Text="Nom du 1er joueur" FontSize="15" TextColor="White" Grid.Column="0" Grid.Row="0" IsVisible="False"/>
+            <Label x:Name="LabelName" Text="Nom du joueur" FontSize="15" TextColor="White" Grid.Column="0" Grid.Row="0" IsVisible="False"/>
+            <Entry x:Name="EntryName1" Placeholder="Nom du joueur" FontSize="15" PlaceholderColor="DarkSalmon" Grid.Column="0" Grid.Row="1"/>
+            <Label x:Name="LabelName2" Text="Nom du 2ème joueur" FontSize="15" TextColor="White" Grid.Column="1" Grid.Row="0" IsVisible="False"/>
+            <Entry x:Name="EntryName2" Placeholder="Nom du joueur" FontSize="15" PlaceholderColor="DarkSalmon" Grid.Column="1" Grid.Row="1" IsVisible="False"/>
+            <Label x:Name="LabelCheckBox" Text="Être le premier joueur?" FontSize="15" TextColor="White" Grid.Column="1" Grid.Row="0" IsVisible="False"/>
+            <CheckBox x:Name="CheckBox1" IsChecked="True" Grid.Column="1" Grid.Row="1" IsVisible="False"/>
+            <Button Text="Valider (le nom ne doit pas être Robot)" FontSize="15" TextColor="White" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Clicked="OnClickedNameEntry" BackgroundColor="Green"/>
+        </Grid> 
+        <!--<Grid Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+
+            <Label Text="♙" Grid.Row="0" Grid.Column="0" WidthRequest="200"  FontSize="40" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
+            <Label Text="♙" Grid.Row="0" Grid.Column="1" WidthRequest="200" FontSize="40" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
+            <Label Text="♙" Grid.Row="0" Grid.Column="2" WidthRequest="80" FontSize="40" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
+            
+            <Label Text="" Grid.Row="1" Grid.Column="0" WidthRequest="200"  FontSize="40" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
+            <Label Text="" Grid.Row="1" Grid.Column="1" WidthRequest="200" FontSize="40" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
+            <Label Text="" Grid.Row="1" Grid.Column="2" WidthRequest="80" FontSize="40" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
+
+
+            <Label Text="♙" Grid.Row="2" Grid.Column="0" FontSize="40" TextColor="Orange" HorizontalOptions="Center" VerticalOptions="Center"/>
+            <Label Text="♙" Grid.Row="2" Grid.Column="1" FontSize="40" TextColor="Orange" HorizontalOptions="Center" VerticalOptions="Center"/>
+            <Label Text="♙" Grid.Row="2" Grid.Column="2" FontSize="40" TextColor="Orange" HorizontalOptions="Center" VerticalOptions="Center"/>
+
+            
+            <BoxView Grid.RowSpan="3" Grid.ColumnSpan="3"
+                     Color="Black" Opacity="0.15"
+                     Margin="1"/>
+        </Grid>-->
+
+
+        <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" >
+            <Button x:Name="GiveUp"
+        Text="{Binding textGiveUpButton}"
+        Style="{StaticResource MenuButtonStyle}" 
+        Clicked="OnClickedGiveUp"
+        WidthRequest="200"
+        IsVisible="False"/>
+            <Button x:Name="Scores"
+                    Text="Scores"  
+                    Style="{StaticResource MenuButtonStyle}" 
+                    WidthRequest="200"
+                    Clicked="OnClickedScores"
+                    IsVisible="True"/>
+
+        </VerticalStackLayout>
+
+
+        <Label Text="HEXAPAWN" Grid.ColumnSpan="3"
+               FontFamily="Consolas"
+               FontSize="40"
+               FontAttributes="Bold"
+               TextColor="White"
+               HorizontalOptions="Center"
+               VerticalOptions="Start"
+               Margin="0,10,0,0"
+               />
+
+       
+        <HorizontalStackLayout Grid.Column="1" VerticalOptions="End" HorizontalOptions="Center" Spacing="20" Margin="0,0,0,20">
+            <Button x:Name="uvu"
+                    Clicked="OnClicked1v1"
+                    Text="2 JOUEURS" 
+                    Style="{StaticResource MenuButtonStyle}" 
+                    WidthRequest="150"
+                    IsVisible="True"/>
+            
+            <Button x:Name="Bvu"
+                    Text="Joueur VS BOT" 
+                    Clicked="OnClickedBv1"
+                    Style="{StaticResource MenuButtonStyle}" 
+                    WidthRequest="150"
+                    IsVisible="True"/>
+            <Button x:Name="BvB"
+                Text="BOT VS BOT" 
+                    Clicked="OnClickedBvB"
+                Style="{StaticResource MenuButtonStyle}" 
+                WidthRequest="150"
+                IsVisible="True"/>
+            <Label x:Name="Bndeau" Text="{Binding Bandeau}" TextColor="White" FontSize="16" FontAttributes="Bold" HorizontalTextAlignment="Center" IsVisible="False"/>
+
+        </HorizontalStackLayout>
+    </Grid>
+</ContentPage>
+
