@@ -79,7 +79,7 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
     }
 
 
-    private void OnCellTapped(ModelHexa.Cell cell)
+    private async void OnCellTapped(ModelHexa.Cell cell)
     {
         if (playerCour() is not HumanPlayer) return; //Si le joueur courant n'est pas un humain, on ne fait rien
         if (win) return;
@@ -94,6 +94,17 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
         if (allMoves[selectedCell].Contains(tente))
         {
             Plateau.MovePawn(Rules, playerCour(), selectedCell, tente, ref win);
+            Switch(ref courant);
+        }
+        if (playerCour() is BOTPlayer&&!win && !isCanceled)
+        {
+            await Task.Delay(1000);
+            if (isCanceled) return; // Si le jeu a été annulé, on ne continue pas
+            bool choixFait = false;
+            Dictionary<ModelHexa.Cell, List<Move>> AllMoves = Rules.allMoves(Plateau, courant);
+            ModelHexa.Cell cellChoisie = playerCour().ChoosePawn(AllMoves);
+            Move moveChoisi = playerCour().ChooseMove(AllMoves[cellChoisie], cellChoisie, ref choixFait);
+            Plateau.MovePawn(Rules, playerCour(), cellChoisie, moveChoisi, ref win);
             Switch(ref courant);
         }
     }
@@ -141,13 +152,21 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
     
     private void OnClicked1v1(object sender, EventArgs e)
     {
+        isCanceled = false;
         ChangeVisibility();
+        courant = TeamColor.Player1;
+        Bandeau = $"{courant}";
         Player1 = new HumanPlayer("P1",TeamColor.Player1);
         Player2 = new HumanPlayer("P2", TeamColor.Player2);
     }
     private void OnClickedBv1(object sender, EventArgs e)
     {
+        isCanceled = false;
         ChangeVisibility();
+        courant = TeamColor.Player1;
+        Bandeau = $"{courant}";
+        Player1 = new HumanPlayer("P1", TeamColor.Player1);
+        Player2 = new BOTPlayer(TeamColor.Player2);
     }
     private async void OnClickedBvB(object sender, EventArgs e)
     {
@@ -155,7 +174,8 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
         ChangeVisibility();
         Player1=new BOTPlayer(TeamColor.Player1);
         Player2 = new BOTPlayer(TeamColor.Player2);
-        Bandeau = "Demo";
+        courant = TeamColor.Player1;
+        Bandeau = $"{courant}"; 
         textGiveUpButton = "Arrêter";
         while (!win && !isCanceled)
         {
