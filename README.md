@@ -1,4 +1,4 @@
-# SAE_1A_G3_bey_mazouz_alves_hexapawn
+#hexapawn
 
 > ### Membres du groupe
 > 
